@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "959778813639",
+    "firebase_url": "https://orion-pager.firebaseio.com",
+    "project_id": "orion-pager",
+    "storage_bucket": "orion-pager.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:959778813639:android:b61c96186d4bc53c",
+        "android_client_info": {
+          "package_name": "com.orion.pager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "959778813639-7i6vn4th6b3b7vq5g7fvfv68877lqji8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.orion.pager",
+            "certificate_hash": "5b367ffa50afb36849e4b25223808a7ab3e78aa1"
+          }
+        },
+        {
+          "client_id": "959778813639-sn8gq2svd33h4khm8t8v92vv44jv71go.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.orion.pager",
+            "certificate_hash": "0a0a99281f7b9cd2c21135d071c307bf92172e01"
+          }
+        },
+        {
+          "client_id": "959778813639-jo7d35l0v64sah9h48qsdou8nca2gb5o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZrymqdhhZDy0gyRmKGRsG6F-NUSMq9OM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "959778813639-jo7d35l0v64sah9h48qsdou8nca2gb5o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "959778813639-g0kt0sakkc7cqkhm923mvcf5ab3ujmak.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.orion.pager"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

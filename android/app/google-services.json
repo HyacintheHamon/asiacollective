@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "846693707910",
+    "firebase_url": "https://asiacollective-960ac.firebaseio.com",
+    "project_id": "asiacollective-960ac",
+    "storage_bucket": "asiacollective-960ac.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:846693707910:android:fc621548e2e749ef256107",
+        "android_client_info": {
+          "package_name": "com.theasiacollective.asiacollective"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "846693707910-3dsfj77rrtvcl15bq4t6294vi2i6f3h3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAn4oj6KmZY_q2TJLVjjvQLuY0ONzMi1mw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "846693707910-3dsfj77rrtvcl15bq4t6294vi2i6f3h3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "846693707910-7ith053ugvigrp1kuoogpoksevm35cn1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.theasiacollective.AsiaCollective"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
