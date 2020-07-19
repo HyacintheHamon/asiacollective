@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">asiacollective</string>
+    <string name="app_name">Hungry In</string>
+    <string name="facebook_app_id">229952194989393</string>
+    <string name="fb_login_protocol_scheme">fb229952194989393</string>
 </resources>

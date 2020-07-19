@@ -18,7 +18,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { inject, observer } from 'mobx-react/native';
 
 import firebase from '@react-native-firebase/app';
-//import { LoginButton, AccessToken,LoginManager } from 'react-native-fbsdk';
+import { LoginButton, AccessToken,LoginManager } from 'react-native-fbsdk';
 import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
 
 GoogleSignin.configure({
@@ -79,8 +79,7 @@ class LoginScreen extends React.Component {
 			this.setState({ isProcessingGoogle: false });
 		});
 	}
-	/*
-
+	
 	async signInOrRegisterFacebook() {
 		this.setState({ isProcessingFacebook: true });
 		const result = await LoginManager.logInWithReadPermissions(['public_profile', 'email']);
@@ -99,8 +98,6 @@ class LoginScreen extends React.Component {
 
 		this.props.userStore.socialLogin('facebook', payload, this.handleSignInResponse.bind(this));
 	}
-
-    */
 
 	handleSignIn(){
 		var errors = [];
@@ -148,7 +145,6 @@ class LoginScreen extends React.Component {
   renderThirdPartyLogin(){
     return (<View>
 
-      {/*
       {this.state.isProcessingFacebook ? (
         <ActivityIndicator
           style={{ marginTop: 30 }}
@@ -164,7 +160,6 @@ class LoginScreen extends React.Component {
            <Text style={{marginLeft:12, fontSize:14, color:"#fff", marginTop:2}}>Sign In with Facebook</Text>
          </View>
 	  </TouchableOpacity>)}
-	  */}
 
 
       {this.state.isProcessingGoogle ? (

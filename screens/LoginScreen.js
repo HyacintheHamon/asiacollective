@@ -20,7 +20,7 @@ import Colors from "../constants/Colors";
 import NavigationService from '../navigation/NavigationService';
 import { inject, observer } from 'mobx-react/native'
 
-//import { LoginButton, AccessToken,LoginManager } from 'react-native-fbsdk';
+import { LoginButton, AccessToken,LoginManager } from 'react-native-fbsdk';
 import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
 
 GoogleSignin.configure({
@@ -56,7 +56,7 @@ export default class LoginScreen extends Component{
 			this.setState({ isProcessingGoogle: false });
 		});
 	}
-    /*
+    
 	async signInOrRegisterFacebook() {
 		this.setState({ isProcessingFacebook: true });
 		const result = await LoginManager.logInWithReadPermissions(['public_profile', 'email']);
@@ -75,7 +75,7 @@ export default class LoginScreen extends Component{
 
 		this.props.userStore.socialLogin('facebook', payload, this.handleSignInResponse.bind(this));
 	}
-	*/
+	
 
 	handleSignIn(){
 		var errors = [];
@@ -176,7 +176,7 @@ export default class LoginScreen extends Component{
 							loading={isProcessingGoogle}
 							buttonStyle={{width:300, height:48, backgroundColor:'#db3236', alignSelf:'center', marginBottom:10}}
 						/>
-					{/*
+				
 					<Button
 							icon={<Icon name="facebook-official" type="font-awesome" size={15} color="white" iconstyle={{marginRight:20}}/>}
 							iconLeft
@@ -186,7 +186,7 @@ export default class LoginScreen extends Component{
 							loading={isProcessingFacebook}
 							buttonStyle={{width:300, height:48, backgroundColor:'#3b5998', alignSelf:'center', marginBottom:10}}
 						/>
-					*/}
+					
 				</ScrollView>
 			</HeaderComponent>
 		);
