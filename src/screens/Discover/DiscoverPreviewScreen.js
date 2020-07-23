@@ -394,6 +394,12 @@ class DiscoverPreview extends React.Component {
 										<Text style={{paddingVertical:10, fontSize:16}}>Asian</Text>
 									</TouchableOpacity>
 									<TouchableOpacity activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
+										<Text style={{paddingVertical:10, fontSize:16}}>Australian</Text>
+									</TouchableOpacity>
+									<TouchableOpacity activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
+										<Text style={{paddingVertical:10, fontSize:16}}>Chinese</Text>
+									</TouchableOpacity>
+									<TouchableOpacity activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
 										<Text style={{paddingVertical:10, fontSize:16}}>Japanese</Text>
 									</TouchableOpacity>
 									<TouchableOpacity activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
@@ -403,16 +409,22 @@ class DiscoverPreview extends React.Component {
 										<Text style={{paddingVertical:10, fontSize:16}}>Italian</Text>
 									</TouchableOpacity>
 									<TouchableOpacity activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
-										<Text style={{paddingVertical:10, fontSize:16}}>Korean</Text>
+										<Text style={{paddingVertical:10, fontSize:16}}>South American</Text>
+									</TouchableOpacity>
+									// <TouchableOpacity activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
+									// 	<Text style={{paddingVertical:10, fontSize:16}}>Korean</Text>
+									// </TouchableOpacity>
+									// <TouchableOpacity activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
+									// 	<Text style={{paddingVertical:10, fontSize:16}}>Lebanese</Text>
+									// </TouchableOpacity>
+									// <TouchableOpacity activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
+									// 	<Text style={{paddingVertical:10, fontSize:16}}>Mexican</Text>
+									// </TouchableOpacity>
+									<TouchableOpacity activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
+										<Text style={{paddingVertical:10, fontSize:16}}>Middle Eastern</Text>
 									</TouchableOpacity>
 									<TouchableOpacity activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
-										<Text style={{paddingVertical:10, fontSize:16}}>Lebanese</Text>
-									</TouchableOpacity>
-									<TouchableOpacity activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
-										<Text style={{paddingVertical:10, fontSize:16}}>Mexican</Text>
-									</TouchableOpacity>
-									<TouchableOpacity activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
-										<Text style={{paddingVertical:10, fontSize:16}}>MIddle Eastern</Text>
+										<Text style={{paddingVertical:10, fontSize:16}}>Western, Asian Fusion</Text>
 									</TouchableOpacity>
 								</ScrollView>
 
