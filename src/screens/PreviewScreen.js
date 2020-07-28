@@ -247,6 +247,8 @@ class PreviewScreen extends React.Component {
 									<WebView
 											source={{uri: this.state.url}}
 						 				 	style={{marginTop: 4}}
+											javaScriptEnabled={true}
+    									injectedJavaScript={`document.getElementsByClassName('foot-new-pc')[0].style.display = "none"; document.getElementsByClassName('foot-new-mobile')[0].style.display = "none";`}
 					 					/>
 			          </View>
 	        </Modal>
