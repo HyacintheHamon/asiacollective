@@ -27,7 +27,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
-
+import MapViewDirections from 'react-native-maps-directions';
 
 var {width,height} = Dimensions.get('window');
 
@@ -191,8 +191,29 @@ class SecondRoute extends React.Component {
 					 longitude: -122.4324,
 					 latitudeDelta: 0.0922,
 					 longitudeDelta: 0.0421,
-				 }}
-			 />)
+				 }}>
+				 {this.state.selectedItem != null ? (<MapViewDirections
+						origin={{
+							latitude: selectedLocation.coordinates.latitude,
+						longitude: selectedLocation.coordinates.longitude
+					}}
+					apikey={"AIzaSyB8YuB_4QzGw1XTb5SubcqorkcgauohlKU"}
+						destination={this.state.selectedItem.coordinates}
+					/>) : null }
+
+					{selectedLocation.venues.map((marker,i)=>{
+					 return (<Marker
+						 key={"i-"+i}
+						 coordinate={marker.coordinates}
+						 title={marker.title}
+						 description={marker.address}
+						 tracksViewChanges={false}
+						 onPress={()=>{
+							 this.handleOnPress(marker)
+						 }}
+					 />);
+				 })}
+				 </MapView>)
 		}
 		else {
 			response = (<MapView
@@ -204,6 +225,14 @@ class SecondRoute extends React.Component {
 					 longitudeDelta: 0.0421,
 				 }}
 			 >
+			 				{this.state.selectedItem != null ? (<MapViewDirections
+									origin={{
+										latitude: selectedLocation.coordinates.latitude,
+									longitude: selectedLocation.coordinates.longitude
+								}}
+								apikey={"AIzaSyB8YuB_4QzGw1XTb5SubcqorkcgauohlKU"}
+									destination={this.state.selectedItem.coordinates}
+								/>) : null }
 
 					    {selectedLocation.venues.map((marker,i)=>{
 								return (<Marker
