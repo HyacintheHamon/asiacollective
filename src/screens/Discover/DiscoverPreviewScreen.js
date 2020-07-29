@@ -28,6 +28,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
+import Geolocation from '@react-native-community/geolocation';
+
 
 var {width,height} = Dimensions.get('window');
 
@@ -43,7 +45,7 @@ class FooterPreview extends React.PureComponent {
 					<TouchableOpacity style={{flex:1}} onPress={this.props.onPress}>
 						<View>
 							<Text style={styles.footerPreviewTitle}>{data.title}</Text>
-							<Text style={styles.footerPreviewSubtitle}>{"Japanese Fusion Restaurant"}</Text>
+							<Text style={styles.footerPreviewSubtitle}>{data.category}</Text>
 						</View>
 					</TouchableOpacity>
 					<Image source={{uri:data.image}} resizeMode={"cover"} style={{width:70, height:70}}/>
@@ -55,98 +57,112 @@ class FooterPreview extends React.PureComponent {
 class FirstRoute extends React.Component {
 	constructor(props){
 		super();
+		this.state = {
+			isRenderList:false
+		}
 	}
 
+
+	componentDidMount(){
+		setTimeout(()=>{ this.setState({isRenderList:true}) },2000);
+	}
+
+	renderList(){
+		return (<ScrollView>
+
+						<View style={{flexDirection:'row', justifyContent:'space-between', marginRight:20, paddingVertical:8}}>
+							<Text style={{fontSize:18}}>DOWNTOWN</Text>
+							<TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.props.nav.navigate('DiscoveryList', { venues: this.props.venues }) }}>
+								<Text style={{color:'orange', fontSize:12}}>View All</Text>
+							</TouchableOpacity>
+						</View>
+						<FlatList
+							 data={paginate(this.props.venues, this.props.venues.length/4, 1) }
+							 horizontal={true}
+							 showsHorizontalScrollIndicator={false}
+							 renderItem={({ item })=>{
+								 return (<LocationVenueItem
+									 title={item.title}
+									 image={item.image}
+									 tags={item.tags}
+									 thumbnailStyle={{marginRight:20}}
+									 onPress={()=>{ this.props.nav.navigate('Preview', {venue: item})}}/>);
+							 }}
+							 keyExtractor={(item, index) => `locVenue-${index.toString()}`}
+					 />
+					 <View style={{flexDirection:'row', justifyContent:'space-between', marginRight:20, paddingVertical:8}}>
+						 <Text style={{fontSize:18}}></Text>
+						 <TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.props.nav.navigate('DiscoveryList', { venues: this.props.venues }) }}>
+							 <Text style={{color:'orange', fontSize:12}}>View All</Text>
+						 </TouchableOpacity>
+					 </View>
+					 <FlatList
+							data={paginate(this.props.venues, this.props.venues.length/4, 2) }
+							horizontal={true}
+							showsHorizontalScrollIndicator={false}
+							renderItem={({ item })=>{
+								return (<LocationVenueItem
+									title={item.title}
+									image={item.image}
+									tags={item.tags}
+									thumbnailStyle={{marginRight:20}}
+									onPress={()=>{ this.props.nav.navigate('Preview', {venue: item})}}/>);
+							}}
+							keyExtractor={(item, index) => `locVenue2-${index.toString()}`}
+					/>
+
+					<View style={{flexDirection:'row', justifyContent:'space-between', marginRight:20, paddingVertical:8}}>
+						<Text style={{fontSize:18}}></Text>
+						<TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.props.nav.navigate('DiscoveryList', { venues: this.props.venues }) }}>
+							<Text style={{color:'orange', fontSize:12}}>View All</Text>
+						</TouchableOpacity>
+					</View>
+					<FlatList
+						 data={paginate(this.props.venues, this.props.venues.length/4, 3) }
+						 horizontal={true}
+						 showsHorizontalScrollIndicator={false}
+						 renderItem={({ item })=>{
+							 return (<LocationVenueItem
+								 title={item.title}
+								 image={item.image}
+								 tags={item.tags}
+								 thumbnailStyle={{marginRight:20}}
+								 onPress={()=>{ this.props.nav.navigate('Preview', {venue: item})}}/>);
+						 }}
+						 keyExtractor={(item, index) => `locVenue3-${index.toString()}`}
+				 />
+
+				 <View style={{flexDirection:'row', justifyContent:'space-between', marginRight:20, paddingVertical:8}}>
+					 <Text style={{fontSize:18}}></Text>
+					 <TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.props.nav.navigate('DiscoveryList', { venues: this.props.venues }) }}>
+						 <Text style={{color:'orange', fontSize:12}}>View All</Text>
+					 </TouchableOpacity>
+				 </View>
+				 <FlatList
+						data={paginate(this.props.venues, this.props.venues.length/4, 4) }
+						horizontal={true}
+						showsHorizontalScrollIndicator={false}
+						renderItem={({ item })=>{
+							return (<LocationVenueItem
+								title={item.title}
+								image={item.image}
+								tags={item.tags}
+								thumbnailStyle={{marginRight:20}}
+								onPress={()=>{ this.props.nav.navigate('Preview', {venue: item})}}/>);
+						}}
+						keyExtractor={(item, index) => `locVenue4-${index.toString()}`}
+				/>
+
+		</ScrollView>);
+	}
 
 	render(){
 		return (<View style={[styles.scene, { backgroundColor: '#fff', paddingTop:20, paddingLeft:20 }]}>
 			<StatusBar backgroundColor="white" barStyle={'dark-content'} />
-			<ScrollView>
 
-				<View style={{flexDirection:'row', justifyContent:'space-between', marginRight:20, paddingVertical:8}}>
-					<Text style={{fontSize:18}}>DOWNTOWN</Text>
-					<TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.props.nav.navigate('DiscoveryList', { venues: this.props.venues }) }}>
-						<Text style={{color:'orange', fontSize:12}}>View All</Text>
-					</TouchableOpacity>
-				</View>
-				<FlatList
-					 data={paginate(this.props.venues, this.props.venues.length/4, 1) }
-					 horizontal={true}
-					 showsHorizontalScrollIndicator={false}
-					 renderItem={({ item })=>{
-						 return (<LocationVenueItem
-							 title={item.title}
-							 image={item.image}
-							 tags={item.tags}
-							 thumbnailStyle={{marginRight:20}}
-							 onPress={()=>{ this.props.nav.navigate('Preview', {venue: item})}}/>);
-					 }}
-					 keyExtractor={(item, index) => `locVenue-${index.toString()}`}
-			 />
-			 <View style={{flexDirection:'row', justifyContent:'space-between', marginRight:20, paddingVertical:8}}>
-				 <Text style={{fontSize:18}}></Text>
-				 <TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.props.nav.navigate('DiscoveryList', { venues: this.props.venues }) }}>
-					 <Text style={{color:'orange', fontSize:12}}>View All</Text>
-				 </TouchableOpacity>
-			 </View>
-			 <FlatList
-					data={paginate(this.props.venues, this.props.venues.length/4, 2) }
-					horizontal={true}
-					showsHorizontalScrollIndicator={false}
-					renderItem={({ item })=>{
-						return (<LocationVenueItem
-							title={item.title}
-							image={item.image}
-							tags={item.tags}
-							thumbnailStyle={{marginRight:20}}
-							onPress={()=>{ this.props.nav.navigate('Preview', {venue: item})}}/>);
-					}}
-					keyExtractor={(item, index) => `locVenue2-${index.toString()}`}
-			/>
+			{ !this.state.isRenderList ? (<ActivityIndicator style={{position:'absolute', left:'50%', top:"50%"}} size="small" color="#000" />) : null }
+			{ this.state.isRenderList ? this.renderList() : null }
 
-			<View style={{flexDirection:'row', justifyContent:'space-between', marginRight:20, paddingVertical:8}}>
-				<Text style={{fontSize:18}}></Text>
-				<TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.props.nav.navigate('DiscoveryList', { venues: this.props.venues }) }}>
-					<Text style={{color:'orange', fontSize:12}}>View All</Text>
-				</TouchableOpacity>
-			</View>
-			<FlatList
-				 data={paginate(this.props.venues, this.props.venues.length/4, 3) }
-				 horizontal={true}
-				 showsHorizontalScrollIndicator={false}
-				 renderItem={({ item })=>{
-					 return (<LocationVenueItem
-						 title={item.title}
-						 image={item.image}
-						 tags={item.tags}
-						 thumbnailStyle={{marginRight:20}}
-						 onPress={()=>{ this.props.nav.navigate('Preview', {venue: item})}}/>);
-				 }}
-				 keyExtractor={(item, index) => `locVenue3-${index.toString()}`}
-		 />
-
-		 <View style={{flexDirection:'row', justifyContent:'space-between', marginRight:20, paddingVertical:8}}>
-			 <Text style={{fontSize:18}}></Text>
-			 <TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.props.nav.navigate('DiscoveryList', { venues: this.props.venues }) }}>
-				 <Text style={{color:'orange', fontSize:12}}>View All</Text>
-			 </TouchableOpacity>
-		 </View>
-		 <FlatList
-				data={paginate(this.props.venues, this.props.venues.length/4, 4) }
-				horizontal={true}
-				showsHorizontalScrollIndicator={false}
-				renderItem={({ item })=>{
-					return (<LocationVenueItem
-						title={item.title}
-						image={item.image}
-						tags={item.tags}
-						thumbnailStyle={{marginRight:20}}
-						onPress={()=>{ this.props.nav.navigate('Preview', {venue: item})}}/>);
-				}}
-				keyExtractor={(item, index) => `locVenue4-${index.toString()}`}
-		/>
-
-			</ScrollView>
 		</View>);
 	}
 };
@@ -156,23 +172,39 @@ class SecondRoute extends React.Component {
 		super(props);
 		this.state = {
 	    isRenderMap: false,
-			selectedItem: null
+			selectedItem: null,
+			currentLat: null,
+			currentLong: null,
+			hasCurrentLocation: null,
 	  }
 	}
 
 	componentDidMount(){
-		setTimeout(()=>{ this.setState({isRenderMap:true}) },5000);
+		//var selectedLocation = this.props.navigation.state.params.selectedLocation;
+		var selectedLocation = this.props.selectedLocation;
+		setTimeout(()=>{
+			this.setState({
+				isRenderMap:true,
+				currentLat: selectedLocation.coordinates.latitude,
+				currentLong: selectedLocation.coordinates.longitude
+			})
+		},5000);
 
 	}
 
 	handleOnLocateCurrentPosition(){
-		console.log(navigator.geolocation);
-		setTimeout(()=>{
-			navigator.geolocation.getCurrentPosition((a,b,c)=>{
-				console.log(a,b,c);
-			},null,null)
-			navigator.geolocation.requestAuthorization();
-		},10000);
+		Geolocation.requestAuthorization();
+		var clearTimer = setInterval(()=>{
+			Geolocation.getCurrentPosition((geoData)=>{
+				clearInterval(clearTimer);
+				console.log(geoData);
+				this.setState({
+					hasCurrentLocation: true,
+					currentLat: geoData.coords.latitude,
+					currentLong: geoData.coords.longitude
+				});
+			},null,null);
+		},2000);
 	}
 
 	handleOnPress(selectedItem){
@@ -180,7 +212,7 @@ class SecondRoute extends React.Component {
 	}
 
 	renderMap(selectedLocation){
-
+		var { currentLat, currentLong } = this.state;
 		var response;
 		if(Platform.OS == "android"){
 			response = (<MapView
@@ -194,8 +226,8 @@ class SecondRoute extends React.Component {
 				 }}>
 				 {this.state.selectedItem != null ? (<MapViewDirections
 						origin={{
-							latitude: selectedLocation.coordinates.latitude,
-						longitude: selectedLocation.coordinates.longitude
+							latitude: currentLat,
+							longitude: currentLong
 					}}
 					apikey={"AIzaSyB8YuB_4QzGw1XTb5SubcqorkcgauohlKU"}
 						destination={this.state.selectedItem.coordinates}
@@ -227,8 +259,8 @@ class SecondRoute extends React.Component {
 			 >
 			 				{this.state.selectedItem != null ? (<MapViewDirections
 									origin={{
-										latitude: selectedLocation.coordinates.latitude,
-									longitude: selectedLocation.coordinates.longitude
+										latitude: currentLat,
+										longitude: currentLong
 								}}
 								apikey={"AIzaSyB8YuB_4QzGw1XTb5SubcqorkcgauohlKU"}
 									destination={this.state.selectedItem.coordinates}
@@ -261,6 +293,13 @@ class SecondRoute extends React.Component {
 					{ !this.state.isRenderMap ? (<ActivityIndicator style={{position:'absolute', left:'50%', top:"50%"}} size="small" color="#000" />) : null }
 					{ this.state.isRenderMap ? this.renderMap(this.props.selectedLocation) : null }
 
+					{ this.state.isRenderMap ? (<TouchableOpacity activeOpacity={0.8} style={{position:'absolute', right:10, top:10}} onPress={()=>{ this.handleOnLocateCurrentPosition() }}>
+						<View style={{width:80}}>
+							<View style={{alignSelf:'center', borderRadius:29, width:58, height:58, borderWidth:1, backgroundColor: this.state.hasCurrentLocation ? '#000' : "#fff", borderColor:"#fff", alignItems:'center', justifyContent:'center'}}>
+								<MaterialIcons name={"my-location"} size={26} color={this.state.hasCurrentLocation ? "#FFF" : "#000"}  />
+							</View>
+						</View>
+					</TouchableOpacity>) : null }
 					{this.state.selectedItem != null ? (<FooterPreview onPress={()=>{   this.props.nav.navigate('Preview', {venue: this.state.selectedItem}) }} data={this.state.selectedItem} />) : null }
 					</View>
 			</View>
@@ -440,15 +479,6 @@ class DiscoverPreview extends React.Component {
 									<TouchableOpacity activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
 										<Text style={{paddingVertical:10, fontSize:16}}>South American</Text>
 									</TouchableOpacity>
-									// <TouchableOpacity activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
-									// 	<Text style={{paddingVertical:10, fontSize:16}}>Korean</Text>
-									// </TouchableOpacity>
-									// <TouchableOpacity activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
-									// 	<Text style={{paddingVertical:10, fontSize:16}}>Lebanese</Text>
-									// </TouchableOpacity>
-									// <TouchableOpacity activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
-									// 	<Text style={{paddingVertical:10, fontSize:16}}>Mexican</Text>
-									// </TouchableOpacity>
 									<TouchableOpacity activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
 										<Text style={{paddingVertical:10, fontSize:16}}>Middle Eastern</Text>
 									</TouchableOpacity>
