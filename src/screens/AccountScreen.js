@@ -25,7 +25,7 @@ function capitalizeFirstLetter(string) {
 @inject('userStore')
 @observer
 class AccountScreen extends React.Component {
-  
+
 
   constructor(props) {
     super(props);
@@ -42,7 +42,7 @@ class AccountScreen extends React.Component {
     // });
 		this.setState({ books: this.props.userStore.user.books });
   }
-	
+
 	handleOnAddBook(location,book, callback){
 		this.props.userStore.addBook(location, book, (isValid)=>{
 			if(isValid){
@@ -52,11 +52,11 @@ class AccountScreen extends React.Component {
 			callback(isValid);
 		});
 	}
-	
+
 	navigateToLogin(){
 		// this.onPressLogin()
 		this.props.userStore.logoutUser();
-		
+
 		const resetHomeAction = StackActions.reset({
 		  index: 0,
 		  actions: [NavigationActions.navigate({ routeName: 'Login' })],
@@ -70,7 +70,7 @@ class AccountScreen extends React.Component {
     return (
 			<View style={{ flex: 1, backgroundColor:'#FFFFFF', paddingLeft:24,paddingRight:24}}>
 				<Text style={{marginTop:36, marginBottom:36, fontSize:36}}>ACCOUNT</Text>
-				
+
 				<ScrollView
 					showsVerticalScrollIndicator={false}
 					horizontal={false}>
@@ -85,20 +85,20 @@ class AccountScreen extends React.Component {
 						{this.state.toggleBooks ? null : this.state.books.map((book,i)=>{
 							return (<View style={{marginBottom:14}}><Text style={{fontSize:14}} key={"book-"+i}>{capitalizeFirstLetter(book.split("_")[0])}</Text><Text>{book.split("_")[1].toUpperCase()}</Text></View>);
 						})}
-						
-						
+
+
 						<View style={{flexDirection:'row', marginVertical:16, marginBottom:30}}>
-							<Text style={{color:'#B5B5B5'}}>Bought another book? </Text>
+							<Text style={{color:'#B5B5B5'}}>Have an existing code? </Text>
 							<TouchableOpacity onPress={()=> { this.props.navigation.navigate('AccountAddCode', { handleOnAddBook: this.handleOnAddBook.bind(this) }) }}>
-								<Text style={{color:'#D5B172'}}>Add Code</Text>
+								<Text style={{color:'#D5B172'}}>Add it here</Text>
 							</TouchableOpacity>
 						</View>
-						
+
 						{!isNotThirdPartyAuth?(<View><View style={{height:1, backgroundColor:'#B5B5B5'}}></View>
 						<TouchableOpacity onPress={()=>{ this.props.navigation.navigate('AccountChangePassword') }}>
 							<Text style={{paddingVertical:16, fontSize:17}}>Change Password</Text>
 						</TouchableOpacity></View>):null}
-						
+
 						<View style={{height:1, backgroundColor:'#B5B5B5'}}></View>
 						<TouchableOpacity onPress={()=>{ this.props.navigation.navigate('AccountTerm') }}>
 							<Text style={{paddingVertical:16, fontSize:17}}>Terms & Conditions</Text>
@@ -112,9 +112,9 @@ class AccountScreen extends React.Component {
 							<Text style={{paddingVertical:16, fontSize:17}}>Logout</Text>
 						</TouchableOpacity>
 						<View style={{height:1, backgroundColor:'#B5B5B5'}}></View>
-						
+
 						<Text style={{marginTop:16, color:'#B5B5B5', paddingBottom:50}}>V0.0.1</Text>
-				
+
 				</ScrollView>
       </View>
     );
