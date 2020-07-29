@@ -22,6 +22,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Modal from 'react-native-modal';
 import {WebView} from 'react-native-webview';
 var {width,height} = Dimensions.get('window');
+import {openSettings,request, check, PERMISSIONS, RESULTS} from 'react-native-permissions';
 
 import {
 	LocationItem,
@@ -103,6 +104,83 @@ class PreviewScreen extends React.Component {
     this.setState({isModalVisible: !this.state.isModalVisible});
   };
 
+	async checkPermissionCamera() {
+			try {
+				const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA,{
+						title: 'AsiaCollective Camera Permission',
+						message:'AsiaCollective needs your permission for your camera to utilize conference feature.'
+					}
+				);
+				if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+					return true;
+				} else {
+					Alert.alert('Permission Error', 'Permission denied. Please try again');
+					return false;
+				}
+			} catch (err) {
+				console.warn(err);
+				return false;
+			}
+		}
+
+		async checkPermissionIOS(){
+			return new Promise((resolve,reject)=> {
+				check(PERMISSIONS.IOS.CAMERA).then((result) => {
+				    switch (result) {
+				      case RESULTS.UNAVAILABLE:
+								request(PERMISSIONS.IOS.CAMERA).then((result) => {
+
+								});
+				        console.log('This feature is not available (on this device / in this context)');
+								resolve(false);
+				        break;
+				      case RESULTS.DENIED:
+								request(PERMISSIONS.IOS.CAMERA).then((result) => {
+
+								});
+				        console.log('The permission has not been requested / is denied but requestable');
+								resolve(false);
+				        break;
+				      case RESULTS.GRANTED:
+				        console.log('The permission is granted');
+								resolve(true);
+				        break;
+				      case RESULTS.BLOCKED:
+								openSettings().catch(() => console.warn('cannot open settings'));
+				        console.log('The permission is denied and not requestable anymore');
+								resolve(false);
+				        break;
+				    }
+				  })
+				  .catch((error) => {
+				    // …
+						console.log(error);
+						resolve(false);
+				  });
+			})
+		}
+
+		async handleOnClick(){
+			if (Platform.OS == 'android') {
+					const permission = await this.checkPermissionCamera();
+					if (!permission) {
+						return;
+					}
+					else {
+						this.props.navigation.navigate('ScanScreen', { handleOnBarCodeReceived: this.handleOnBarCodeReceived.bind(this) })
+					}
+			}
+			else {
+				this.checkPermissionIOS().then((isAllowed)=>{
+					if(isAllowed==true){
+						this.props.navigation.navigate('ScanScreen', { handleOnBarCodeReceived: this.handleOnBarCodeReceived.bind(this) })
+					}
+				});
+			}
+
+		}
+
+
 	handleOnBarCodeReceived(event) {
 		//Toast.show('Type: ' + event.type + '\nData: ' + event.data);
 		this.props.userStore.checkVenueQr({code:event.data}, (isValid)=>{
@@ -144,7 +222,7 @@ class PreviewScreen extends React.Component {
 			<Text style={{marginBottom:10, color:'gray', fontSize:12}}>{offer.offer_condition ? offer.offer_condition: ""}</Text>
 			<Text style={{marginBottom:10, color:'gray', fontSize:12}}>{offer.offer_description}</Text>
 			<TouchableOpacity
-			onPress={()=>{ this.props.navigation.navigate('ScanScreen', { handleOnBarCodeReceived: this.handleOnBarCodeReceived.bind(this) }) }}
+			onPress={()=>{ this.handleOnClick() }}
 					activeOpacity={0.8} style={{position:'absolute', bottom: -2, left:-2, right:-2}}>
 				<View style={{ height:40, backgroundColor: '#E7B876', alignItems:'center', justifyContent:'center'}}>
 					<Text style={{color:'#fff'}}>Redeem Privilege</Text>
