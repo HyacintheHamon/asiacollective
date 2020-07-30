@@ -7,8 +7,13 @@ import firebase from '@react-native-firebase/app';
 import '@react-native-firebase/firestore';
 const GRAVATAR_URL = "https://s.gravatar.com/avatar";
 const axios = require('axios');
-var locations = null;
 const SERVER_URL = 'https://asia-collective.herokuapp.com';
+
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+}
 
 export default class userStore {
 	@observable
@@ -360,10 +365,22 @@ export default class userStore {
 
 	getLocations(callback){
 		axios.get(`${SERVER_URL}/api/venues?groupedByLocation=true&simplfied=true`).then(function (response) {
-			locations = response.data.data;
-			console.log(locations);
-			callback(locations)
+			callback(response.data.data)
   	});
+	}
+
+	async getBooks() {
+		var books = [];
+
+		if(this.user.books.length){
+			let book = this.user.books[0];
+			await asyncForEach( this.user.books, async function(book){
+				let result = await axios.get(`${SERVER_URL}/api/book?location=${book.split("_")[0]}&book_number=${book.split("_")[1]}&edition=1`);
+				books = books.concat(result.data.books);
+			});
+		}
+
+		return books;
 	}
 
 	getOffer(venue_id, callback){

@@ -88,20 +88,52 @@ class PreviewScreen extends React.Component {
 		this.state = {
 			isModalVisible: false,
 			isFetchingOffers: true,
-			offers: []
+			offers: [],
+			isDisableAll: true,
+			displayBookCode: null,
 		}
 	}
 
-	componentDidMount(){
+	async componentDidMount(){
 		let {venue} = this.props.navigation.state.params;
-		this.setState({isFetchingOffers: true });
-		this.props.userStore.getOffer(venue.id, (offers)=>{
+		this.setState({isFetchingOffers: true, displayBookCode: null });
+		this.props.userStore.getOffer(venue.id, async (offers)=>{
 			this.setState({ isFetchingOffers: false, offers: offers });
+
+			var books = await this.props.userStore.getBooks();
+			console.log(books,'books books', offers, venue);
+			if(books && books.length){
+				books.forEach((book)=>{
+					if(venue.user_id == book.fk_user_id){
+						if(book.redeem_status == 0 || book.redeem_status == "0"){
+							this.setState({isDisableAll: false, displayBookCode: book.book_number});
+						}
+					}
+				});
+			}
+
 		});
 	}
 
 	toggleModal = () => {
     this.setState({isModalVisible: !this.state.isModalVisible});
+
+
+
+
+
+		setTimeout(() => {
+			 this.webref.injectJavaScript(`
+				 jQuery(document).ready(function(){
+					 document.getElementsByClassName('foot-new-pc')[0].style.display = "none";
+					 document.getElementsByClassName('foot-new-mobile')[0].style.display = "none";
+				 });
+				 setTimeout(function(){
+					 document.getElementsByClassName('foot-new-pc')[0].style.display = "none";
+					 document.getElementsByClassName('foot-new-mobile')[0].style.display = "none";
+				 },5000);
+				 `);
+		 }, 1000);
   };
 
 	async checkPermissionCamera() {
@@ -183,7 +215,7 @@ class PreviewScreen extends React.Component {
 
 	handleOnBarCodeReceived(event) {
 		//Toast.show('Type: ' + event.type + '\nData: ' + event.data);
-		this.props.userStore.checkVenueQr({code:event.data}, (isValid)=>{
+		this.props.userStore.checkVenueQr({code:event.data, book_number: displayBookCode}, (isValid)=>{
 			if(isValid){
 				Alert.alert(
 					"Success",
@@ -204,6 +236,7 @@ class PreviewScreen extends React.Component {
 	};
 
 	renderOffer(offer){
+		let { displayBookCode } = this.state;
 		return (<View style={{marginVertical:10, marginBottom: 30, borderStyle: 'dashed', borderRadius: 1, borderColor:'#E7B876', borderWidth:2, padding:12, paddingBottom:60, position:'relative'}}>
 			<View style={{
 				width: 0,
@@ -221,13 +254,19 @@ class PreviewScreen extends React.Component {
 			<Text style={{marginVertical:6, fontSize:16}}>{offer.offer_title}</Text>
 			<Text style={{marginBottom:10, color:'gray', fontSize:12}}>{offer.offer_condition ? offer.offer_condition: ""}</Text>
 			<Text style={{marginBottom:10, color:'gray', fontSize:12}}>{offer.offer_description}</Text>
-			<TouchableOpacity
+			{this.state.isDisableAll ? (<TouchableOpacity
+					onPress={()=>{ this.showToastMessage('Redeem Error'); }}
+					activeOpacity={0.8} style={{position:'absolute', bottom: -2, left:-2, right:-2}}>
+				<View style={{ height:40, backgroundColor: 'gray', alignItems:'center', justifyContent:'center'}}>
+					<Text style={{color:'#fff'}}>Redeem Privilege</Text>
+				</View>
+			</TouchableOpacity>): (<TouchableOpacity
 			onPress={()=>{ this.handleOnClick() }}
 					activeOpacity={0.8} style={{position:'absolute', bottom: -2, left:-2, right:-2}}>
 				<View style={{ height:40, backgroundColor: '#E7B876', alignItems:'center', justifyContent:'center'}}>
-					<Text style={{color:'#fff'}}>Redeem Privilege</Text>
+					<Text style={{color:'#fff'}}>Redeem Privilege {displayBookCode}</Text>
 				</View>
-			</TouchableOpacity>
+			</TouchableOpacity>)}
 		</View>);
 	}
 
@@ -326,6 +365,7 @@ class PreviewScreen extends React.Component {
 											source={{uri: this.state.url}}
 						 				 	style={{marginTop: 4}}
 											javaScriptEnabled={true}
+											ref={(r) => (this.webref = r)}
     									injectedJavaScript={`document.getElementsByClassName('foot-new-pc')[0].style.display = "none"; document.getElementsByClassName('foot-new-mobile')[0].style.display = "none";`}
 					 					/>
 			          </View>
