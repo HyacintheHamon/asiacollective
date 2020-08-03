@@ -65,6 +65,7 @@ class AccountScreen extends React.Component {
 	}
 
   render() {
+    const { books } = this.state;
 		let isNotThirdPartyAuth = this.props.userStore.user.authSource.length == 0 ? false : true; // hide change password if via google
 		console.log("isNotThirdPartyAuth", isNotThirdPartyAuth, this.props.userStore.user);
     return (
@@ -82,17 +83,22 @@ class AccountScreen extends React.Component {
 								<Ionicons name={this.state.toggleBooks ? "ios-arrow-up" : "ios-arrow-down"} size={20} color={"#000"} />
 							</View>
 						</TouchableOpacity>
-						{this.state.toggleBooks ? null : this.state.books.map((book,i)=>{
+						{this.state.toggleBooks ? null : books.map((book,i)=>{
 							return (<View style={{marginBottom:14}}><Text style={{fontSize:14}} key={"book-"+i}>{capitalizeFirstLetter(book.split("_")[0])}</Text><Text>{book.split("_")[1].toUpperCase()}</Text></View>);
 						})}
 
 
-						<View style={{flexDirection:'row', marginVertical:16, marginBottom:30}}>
+						{books.length == 0 ? (<View style={{flexDirection:'row', marginVertical:16, marginBottom:30}}>
+							<Text style={{color:'#B5B5B5'}}>Enter your </Text>
+							<TouchableOpacity onPress={()=> { this.props.navigation.navigate('AccountAddCode', { handleOnAddBook: this.handleOnAddBook.bind(this) }) }}>
+								<Text style={{color:'#D5B172'}}>Unique Code here</Text>
+							</TouchableOpacity>
+						</View>) : (<View style={{flexDirection:'row', marginVertical:16, marginBottom:30}}>
 							<Text style={{color:'#B5B5B5'}}>Have an existing code? </Text>
 							<TouchableOpacity onPress={()=> { this.props.navigation.navigate('AccountAddCode', { handleOnAddBook: this.handleOnAddBook.bind(this) }) }}>
 								<Text style={{color:'#D5B172'}}>Add it here</Text>
 							</TouchableOpacity>
-						</View>
+						</View>)}
 
 						{!isNotThirdPartyAuth?(<View><View style={{height:1, backgroundColor:'#B5B5B5'}}></View>
 						<TouchableOpacity onPress={()=>{ this.props.navigation.navigate('AccountChangePassword') }}>
