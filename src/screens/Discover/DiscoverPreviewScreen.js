@@ -325,7 +325,9 @@ class DiscoverPreview extends React.Component {
 	      { key: 'first', title: 'Restaurants' },
 	      { key: 'second', title: 'Map' },
 	    ],
-			venues:[],
+			typeFilter: [],
+			cuisineFilter: [],
+			isFilterApplied: false,
 			isModalVisible: false
 	  }
 	}
@@ -356,9 +358,77 @@ class DiscoverPreview extends React.Component {
 				 </Text>)
   }
 
+	addTypeFilter(filter) {
+		var { typeFilter } = this.state;
+		let indexOfSelected = typeFilter.indexOf(filter);
+		var selectedTypeFilters = [];
+		if ( indexOfSelected == -1) {
+			selectedTypeFilters = typeFilter.concat(filter);
+		}
+		else {
+			let temp = typeFilter.concat();
+			temp.splice(indexOfSelected,1);
+			selectedTypeFilters = temp;
+		}
+	  this.setState({typeFilter:  selectedTypeFilters, isFilterApplied:false}, ()=>{
+			
+		});
+	}
+
+	addCuisineFilter(filter) {
+		var { cuisineFilter } = this.state;
+
+		let indexOfSelected = cuisineFilter.indexOf(filter);
+		var selectedCuisineFilters = [];
+		if ( indexOfSelected == -1) {
+			selectedCuisineFilters = cuisineFilter.concat(filter);
+		}
+		else {
+			let temp = cuisineFilter.concat();
+			temp.splice(indexOfSelected,1);
+			selectedCuisineFilters = temp;
+		}
+	  this.setState({cuisineFilter:  selectedCuisineFilters, isFilterApplied:false}, ()=>{
+			
+		});
+	}
+
+
+	handleOnApplyPressed(){
+		var {cuisineFilter,typeFilter} = this.state;
+		if(cuisineFilter!= 0 || typeFilter.length != 0){
+			this.setState({ isFilterApplied:true });
+		}
+		else {
+			this.setState({ isFilterApplied:false });
+		}
+		this.toggleModal();
+	}
 
   render() {
 		let selectedLocation = this.props.navigation.state.params.selectedLocation;
+		var { typeFilter, cuisineFilter } = this.state;
+		if (this.state.isFilterApplied) {
+			selectedLocation = Object.assign({},selectedLocation);
+			selectedLocation.venues = selectedLocation.venues.filter((currentVal)=>{
+				var result = false;
+
+				typeFilter.forEach((category)=>{
+					if(currentVal.category.toLowerCase().indexOf(category) != -1){
+						result = true;
+					}
+				});
+
+				cuisineFilter.forEach((cuisine)=>{
+					if(currentVal.cuisine.toLowerCase().indexOf(cuisine) != -1){
+						result = true;
+					}
+				})
+
+				return result;
+			});
+		}
+		//filter over here hahahaa
     return (
 			<View style={{paddingTop:20, flex:1, backgroundColor:'#fff'}}>
 					<StatusBar backgroundColor="white" barStyle={'dark-content'} />
@@ -405,48 +475,48 @@ class DiscoverPreview extends React.Component {
 						<View style={{marginVertical:4, marginLeft:20}}>
 							<Text style={{fontSize:20, marginBottom:16}}>Category</Text>
 							<ScrollView horizontal={true} contentStyle={{flexDirection:'row'}} style={{paddingBottom:34}} showsHorizontalScrollIndicator={false}>
-								<TouchableOpacity activeOpacity={0.8}>
-									<View style={{width:80}}>
+								<TouchableOpacity onPress={()=>{ this.addTypeFilter('restaurant') }} activeOpacity={0.8}>
+									<View style={{width:80, opacity: typeFilter.indexOf('restaurant') == -1 ? 1 : 0.4}}>
 										<View style={{alignSelf:'center', borderRadius:26, width:52, height:52, borderWidth:1, borderColor:"#E7B876", alignItems:'center', justifyContent:'center'}}>
 											<Ionicons name={"ios-restaurant"} size={26} color={"#E7B876"}  />
 										</View>
 										<Text style={{ width:80, textAlign:'center', fontSize:12, color:"#E7B876"}}>Restaurant</Text>
 									</View>
 								</TouchableOpacity>
-								<TouchableOpacity activeOpacity={0.8}>
-									<View style={{width:80}}>
+								<TouchableOpacity onPress={()=>{ this.addTypeFilter('cafe') }} activeOpacity={0.8}>
+									<View style={{width:80, opacity: typeFilter.indexOf('cafe') == -1 ? 1 : 0.4}}>
 										<View style={{alignSelf:'center', borderRadius:26, width:52, height:52, borderWidth:1, borderColor:"#E7B876", alignItems:'center', justifyContent:'center'}}>
 											<SimpleLineIcons name={"cup"} size={22} color={"#E7B876"}  />
 										</View>
 										<Text style={{ width:80, textAlign:'center', fontSize:12, color:"#E7B876"}}>Cafe</Text>
 									</View>
 								</TouchableOpacity>
-								<TouchableOpacity activeOpacity={0.8}>
-									<View style={{width:80}}>
+								<TouchableOpacity onPress={()=>{ this.addTypeFilter('bar') }} activeOpacity={0.8}>
+									<View style={{width:80, opacity: typeFilter.indexOf('bar') == -1 ? 1 : 0.4}}>
 										<View style={{alignSelf:'center', borderRadius:26, width:52, height:52, borderWidth:1, borderColor:"#E7B876", alignItems:'center', justifyContent:'center'}}>
 											<Ionicons name={"ios-wine"} size={26} color={"#E7B876"}  />
 										</View>
 										<Text style={{ width:80, textAlign:'center', fontSize:12, color:"#E7B876"}}>Bar</Text>
 									</View>
 								</TouchableOpacity>
-								<TouchableOpacity activeOpacity={0.8}>
-									<View style={{width:80}}>
+								<TouchableOpacity onPress={()=>{ this.addTypeFilter('beach club') }} activeOpacity={0.8}>
+									<View style={{width:80, opacity: typeFilter.indexOf('beach club') == -1 ? 1 : 0.4}}>
 										<View style={{alignSelf:'center', borderRadius:26, width:52, height:52, borderWidth:1, borderColor:"#E7B876", alignItems:'center', justifyContent:'center'}}>
 											<FontAwesome5 name={"umbrella-beach"} size={22} color={"#E7B876"}  />
 										</View>
 										<Text style={{ width:80, textAlign:'center', fontSize:12, color:"#E7B876"}}>Beach Club</Text>
 									</View>
 								</TouchableOpacity>
-								<TouchableOpacity activeOpacity={0.8}>
-									<View style={{width:80}}>
+								<TouchableOpacity onPress={()=>{ this.addTypeFilter('spa') }} activeOpacity={0.8}>
+									<View style={{width:80, opacity: typeFilter.indexOf('spa') == -1 ? 1 : 0.4}}>
 										<View style={{alignSelf:'center', borderRadius:26, width:52, height:52, borderWidth:1, borderColor:"#E7B876", alignItems:'center', justifyContent:'center'}}>
 											<MaterialIcons name={"spa"} size={26} color={"#E7B876"}  />
 										</View>
 										<Text style={{ width:80, textAlign:'center', fontSize:12, color:"#E7B876"}}>Spa</Text>
 									</View>
 								</TouchableOpacity>
-								<TouchableOpacity activeOpacity={0.8}>
-									<View style={{width:80}}>
+								<TouchableOpacity onPress={()=>{ this.addTypeFilter('hotel') }} activeOpacity={0.8}>
+									<View style={{width:80, opacity: typeFilter.indexOf('hotel') == -1 ? 1 : 0.4}}>
 										<View style={{alignSelf:'center', borderRadius:26, width:52, height:52, borderWidth:1, borderColor:"#E7B876", alignItems:'center', justifyContent:'center'}}>
 											<MaterialCommunityIcons name={"hotel"} size={26} color={"#E7B876"}  />
 										</View>
@@ -458,39 +528,39 @@ class DiscoverPreview extends React.Component {
 
 								<Text style={{fontSize:20, marginBottom:16}}>Cuisine</Text>
 								<ScrollView vertical={true}>
-									<TouchableOpacity activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
-										<Text style={{paddingVertical:10, fontSize:16}}>Asian</Text>
+									<TouchableOpacity onPress={()=>{ this.addCuisineFilter('asian') }} activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
+										<Text style={{paddingVertical:10, color: cuisineFilter.indexOf('asian') == -1 ? 'black' : 'gray', fontSize:16}}>Asian</Text>
 									</TouchableOpacity>
-									<TouchableOpacity activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
-										<Text style={{paddingVertical:10, fontSize:16}}>Australian</Text>
+									<TouchableOpacity onPress={()=>{ this.addCuisineFilter('australian') }} activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
+										<Text style={{paddingVertical:10, color: cuisineFilter.indexOf('australian') == -1 ? 'black' : 'gray', fontSize:16}}>Australian</Text>
 									</TouchableOpacity>
-									<TouchableOpacity activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
-										<Text style={{paddingVertical:10, fontSize:16}}>Chinese</Text>
+									<TouchableOpacity onPress={()=>{ this.addCuisineFilter('chinese') }} activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
+										<Text style={{paddingVertical:10, color: cuisineFilter.indexOf('chinese') == -1 ? 'black' : 'gray', fontSize:16}}>Chinese</Text>
 									</TouchableOpacity>
-									<TouchableOpacity activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
-										<Text style={{paddingVertical:10, fontSize:16}}>Japanese</Text>
+									<TouchableOpacity onPress={()=>{ this.addCuisineFilter('japanese') }} activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
+										<Text style={{paddingVertical:10, color: cuisineFilter.indexOf('japanese') == -1 ? 'black' : 'gray', fontSize:16}}>Japanese</Text>
 									</TouchableOpacity>
-									<TouchableOpacity activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
-										<Text style={{paddingVertical:10, fontSize:16}}>Greek</Text>
+									<TouchableOpacity onPress={()=>{ this.addCuisineFilter('greek') }} activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
+										<Text style={{paddingVertical:10, color: cuisineFilter.indexOf('greek') == -1 ? 'black' : 'gray', fontSize:16}}>Greek</Text>
 									</TouchableOpacity>
-									<TouchableOpacity activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
-										<Text style={{paddingVertical:10, fontSize:16}}>Italian</Text>
+									<TouchableOpacity onPress={()=>{ this.addCuisineFilter('italian') }} activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
+										<Text style={{paddingVertical:10, color: cuisineFilter.indexOf('italian') == -1 ? 'black' : 'gray', fontSize:16}}>Italian</Text>
 									</TouchableOpacity>
-									<TouchableOpacity activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
-										<Text style={{paddingVertical:10, fontSize:16}}>South American</Text>
+									<TouchableOpacity onPress={()=>{ this.addCuisineFilter('south american') }} activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
+										<Text style={{paddingVertical:10, color: cuisineFilter.indexOf('south american') == -1 ? 'black' : 'gray', fontSize:16}}>South American</Text>
 									</TouchableOpacity>
-									<TouchableOpacity activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
-										<Text style={{paddingVertical:10, fontSize:16}}>Middle Eastern</Text>
+									<TouchableOpacity onPress={()=>{ this.addCuisineFilter('middle eastern') }} activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
+										<Text style={{paddingVertical:10, color: cuisineFilter.indexOf('middle eastern') == -1 ? 'black' : 'gray', fontSize:16}}>Middle Eastern</Text>
 									</TouchableOpacity>
-									<TouchableOpacity activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
-										<Text style={{paddingVertical:10, fontSize:16}}>Western, Asian Fusion</Text>
+									<TouchableOpacity onPress={()=>{ this.addCuisineFilter('western, asian fusion') }} activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
+										<Text style={{paddingVertical:10, color: cuisineFilter.indexOf('western, asian fusion') == -1 ? 'black' : 'gray', fontSize:16}}>Western, Asian Fusion</Text>
 									</TouchableOpacity>
 								</ScrollView>
 
 						</View>
 
 
-						<TouchableOpacity activeOpacity={0.8} style={{position:'absolute', bottom:20, left:0, right:0}} onPress={()=>{   }}>
+						<TouchableOpacity activeOpacity={0.8} style={{position:'absolute', bottom:20, left:0, right:0}} onPress={()=>{ this.handleOnApplyPressed()  }}>
 							<View style={{backgroundColor:'#E7B876', padding:14, alignItems:'center', justifyContent:'center'}}>
 								<Text style={{color:'#fff'}}>APPLY</Text>
 							</View>
