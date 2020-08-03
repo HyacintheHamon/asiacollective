@@ -80,7 +80,7 @@ const AccountNavigation = createStackNavigator({
 	initialRouteName: 'Login',
 });
 
-const FeedNavigation = createStackNavigator({
+const DiscoverNavigation = createStackNavigator({
 	Discover: {
 		screen: DiscoverScreen,
 		navigationOptions: { header: null }
@@ -105,18 +105,18 @@ const DealNavigation = createStackNavigator({
 });
 
 var HomeNavigation = createBottomTabNavigator({
-  Feed: FeedNavigation,
-	Deal: DealNavigation,
+  Discover: DiscoverNavigation,
+	Privilege: DealNavigation,
   Account: AccountNavigation,
 },  {
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, horizontal, tintColor }) => {
         const { routeName } = navigation.state;
         let iconName;
-        if (routeName === 'Feed') {
+        if (routeName === 'Discover') {
           iconName = `home`;
 					return <SimpleLineIcons name={iconName} size={horizontal ? 20 : 25} color={tintColor} />;
-        } else if (routeName === 'Deal') {
+        } else if (routeName === 'Privilege') {
           iconName = `present`;
 					return <SimpleLineIcons name={iconName} size={horizontal ? 20 : 25} color={tintColor} />;
         }
