@@ -235,9 +235,9 @@ class PreviewScreen extends React.Component {
 		});
 	};
 
-	renderOffer(offer){
+	renderOffer(offer, i){
 		let { displayBookCode } = this.state;
-		return (<View style={{marginVertical:10, marginBottom: 30, borderStyle: 'dashed', borderRadius: 1, borderColor:'#E7B876', borderWidth:2, padding:12, paddingBottom:60, position:'relative'}}>
+		return (<View key={`offer-${i}`} style={{marginVertical:10, marginBottom: 30, borderStyle: 'dashed', borderRadius: 1, borderColor:'#E7B876', borderWidth:2, padding:12, paddingBottom:60, position:'relative'}}>
 			<View style={{
 				width: 0,
 						 height: 0,
@@ -300,8 +300,8 @@ class PreviewScreen extends React.Component {
 								<Text style={{fontSize:18, paddingVertical:4}}>{venue.title}</Text>
 								<Text style={{color:'gray', marginBottom:14, fontSize:12}}>{venue.cuisine} {venue.category}</Text>
 
-								{isFetchingOffers ? (<ActivityIndicator size="small" color="#000" />) : offers.map((offer)=>{
-									return this.renderOffer(offer)
+								{isFetchingOffers ? (<ActivityIndicator size="small" color="#000" />) : offers.map((offer,i)=>{
+									return this.renderOffer(offer, i)
 								})}
 
 								<Text style={{marginVertical:6, fontSize:22, marginBottom:10}}>About</Text>

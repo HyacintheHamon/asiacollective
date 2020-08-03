@@ -36,8 +36,9 @@ class DealListAllVenues extends React.Component {
 				<View style={{marginLeft:20, marginRight:20}}>
 					<FlatList
 						 data={deal.venue}
-						 horizontal={true}
+						 horizontal={false}
 						 showsHorizontalScrollIndicator={false}
+						 showsVerticalScrollIndicator={false}
 						 renderItem={({ item })=>{
 							 return (<LocationVenueItem
 								 title={item.title}
