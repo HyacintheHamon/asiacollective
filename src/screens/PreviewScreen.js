@@ -314,10 +314,21 @@ class PreviewScreen extends React.Component {
 			<Text style={{marginBottom:10, color:'gray', fontSize:12}}>{offer.offer_description}</Text>
 			<View style={{flexDirection:'row', position:'absolute', bottom: -2, left:-2, right:-2}}>
 				{this.state.isDisableAll ? (<TouchableOpacity
-						onPress={()=>{ this.showToastMessage('Redeem Error'); }}
+						onPress={()=>{
+							if(this.state.availableBookCodes.length == 0){
+								if(this.state.deal_checkout_url && this.state.deal_checkout_url.length){
+									this.setState({url:this.state.deal_checkout_url},()=>{
+										this.toggleModal();
+									});
+								}
+							}
+							else {
+								this.showToastMessage('Redeem Error');
+							}
+						}}
 						activeOpacity={0.8} style={{}}>
 					<View style={{ height:40, backgroundColor: 'gray', width:(width-48), alignItems:'center', justifyContent:'center'}}>
-						<Text style={{color:'#fff'}}>Redeem Privilege</Text>
+						<Text style={{color:'#fff'}}>Buy Privilege</Text>
 					</View>
 				</TouchableOpacity>): (<TouchableOpacity
 				onPress={()=>{ this.handleOnClick() }}
@@ -326,7 +337,7 @@ class PreviewScreen extends React.Component {
 						<Text style={{color:'#fff'}}>Redeem Privilege</Text>
 					</View>
 				</TouchableOpacity>)}
-				{!this.state.isDisableAll && this.state.availableBookCodes.length != 0 ? (<RNPickerSelect
+				{ !this.state.isDisableAll && this.state.availableBookCodes.length != 0 ? (<RNPickerSelect
 					style={pickerStyle}
 					placeholder={Object.assign(placeholder,{value:this.state.availableBookCodes[0]})}
 					onValueChange={(value) => this.setState({ displayBookCode:value })}
@@ -372,16 +383,6 @@ class PreviewScreen extends React.Component {
 								{isFetchingOffers ? (<ActivityIndicator size="small" color="#000" />) : offers.map((offer,i)=>{
 									return this.renderOffer(offer, i)
 								})}
-
-								{this.state.deal_checkout_url && this.state.deal_checkout_url.length != 0 ? (<TouchableOpacity onPress={()=>{
-										this.setState({url:this.state.deal_checkout_url},()=>{
-											this.toggleModal();
-										});
-								}}>
-									<View style={{ width:width - 48, marginBottom:30, textAlign:'center', height:40, alignItems:'center', justifyContent:'center' }}>
-										<Text style={{color:'#E7B876', fontWeight:'bold'}}>Purchase Privilege</Text>
-									</View>
-								</TouchableOpacity>): null }
 
 								<Text style={{marginVertical:6, fontSize:22, marginBottom:10}}>About</Text>
 								<Text style={{marginBottom:10, lineHeight:26, fontSize:13}}>{venue.description}</Text>
