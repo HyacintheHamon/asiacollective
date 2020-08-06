@@ -22,7 +22,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import RNPickerSelect from 'react-native-picker-select';
 
 class AccountAddCodeScreen extends React.Component {
-  
+
 
   constructor(props) {
     super(props);
@@ -33,7 +33,7 @@ class AccountAddCodeScreen extends React.Component {
 			location: ""
     };
   }
-	
+
 	handleOnAddBook(){
 		this.setState({ isLoading: true });
 		this.props.navigation.state.params.handleOnAddBook(this.state.location,this.state.book, (isValid)=>{
@@ -47,28 +47,30 @@ class AccountAddCodeScreen extends React.Component {
 			this.setState({ isLoading: false });
 		});
 	}
- 
+
   render() {
 		let pickerStyle = {
 			inputIOS: {
-				width:90,
+				width:330,
+        paddingVertical:8,
 				color:'#000',
-				fontSize:13,
+				fontSize:16,
 			},
 			inputAndroid: {
-				width:90,
+				width:330,
+        paddingVertical:8,
 				color:'#000',
-				fontSize:13,
+				fontSize:16,
 			}
 		};
 		const placeholder = {
     	label: 'Select',
 		}
-		
+
 		const isLoading = this.state.isLoading;
     return (
 			<View style={{ flex: 1, backgroundColor:'#FFFFFF' }}>
-				
+
 				<View style={{position:'relative',  marginTop:20, paddingVertical:24, }}>
 					<TouchableOpacity onPress={()=>{ this.props.navigation.goBack() }} style={{position:'absolute', left:0}}>
 						<View style={{paddingVertical:18, paddingHorizontal:18}}>
@@ -87,9 +89,10 @@ class AccountAddCodeScreen extends React.Component {
 						</View>
 					</TouchableOpacity>
 				 </View>
-					 
+
 					<Text style={{marginLeft:20, marginTop:20}}>Select City</Text>
-					<View style={{margin:20, flexDirection:'row'}}>
+					<View style={{margin:20, flexDirection:'row', position:'relative'}}>
+            <Text style={{color:'violet', fontSize:16, position:'absolute', left:90, top:8}}>Display current location (city) first</Text>
 						<RNPickerSelect
 							style={pickerStyle}
 							placeholder={placeholder}
@@ -100,9 +103,7 @@ class AccountAddCodeScreen extends React.Component {
 									 { label: 'Shanghai', value: 'shanghai' },
 							 ]}
 						 />
-						 <Text style={{color:'violet', fontSize:12}}>Display current location (city) first</Text>
 					</View>
-					
 					<Text style={{marginLeft:20, marginTop:20}}>Enter your Unique Code</Text>
 					<TextInput
 							style={{padding:20}}
@@ -115,9 +116,9 @@ class AccountAddCodeScreen extends React.Component {
 							underlineColorAndroid="transparent"
 						/>
 					<View>
-					
+
 				</View>
-				
+
 				 <Toast ref="toast"/>
 			</View>
     );
