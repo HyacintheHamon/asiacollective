@@ -89,12 +89,12 @@ class AccountScreen extends React.Component {
 
 
 						{books.length == 0 ? (<View style={{flexDirection:'row', marginVertical:16, marginBottom:30}}>
-							<Text style={{color:'#B5B5B5'}}>Enter your </Text>
+							<Text style={{color:'#EB19STOF'}}>Enter your </Text>
 							<TouchableOpacity onPress={()=> { this.props.navigation.navigate('AccountAddCode', { handleOnAddBook: this.handleOnAddBook.bind(this) }) }}>
 								<Text style={{color:'#D5B172'}}>Unique Code here</Text>
 							</TouchableOpacity>
 						</View>) : (<View style={{flexDirection:'row', marginVertical:16, marginBottom:30}}>
-							<Text style={{color:'#B5B5B5'}}>Have an existing code? </Text>
+							<Text style={{color:'#EB19STOF'}}>Have another code? </Text>
 							<TouchableOpacity onPress={()=> { this.props.navigation.navigate('AccountAddCode', { handleOnAddBook: this.handleOnAddBook.bind(this) }) }}>
 								<Text style={{color:'#D5B172'}}>Add it here</Text>
 							</TouchableOpacity>

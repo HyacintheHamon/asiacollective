@@ -64,7 +64,7 @@ export default class DealPreviewScreen extends React.Component {
 
 							<TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.props.navigation.navigate('DealListAllVenues', {deal: deal}) }}>
 								<View style={{borderWidth:1, borderColor:'#E7B876', padding:10, alignItems:'center', justifyContent:'center'}}>
-									<Text style={{color:'#E7B876'}}>View List of Venues</Text>
+									<Text style={{color:'#E7B876'}}>VIEW LIST OF VENUES AND PRIVILEGES</Text>
 								</View>
 							</TouchableOpacity>
 						</View>

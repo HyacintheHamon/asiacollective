@@ -51,20 +51,22 @@ class AccountAddCodeScreen extends React.Component {
   render() {
 		let pickerStyle = {
 			inputIOS: {
-				width:330,
+				width:350,
         paddingVertical:8,
 				color:'#000',
 				fontSize:16,
+        paddingLeft:90
 			},
 			inputAndroid: {
-				width:330,
+				width:350,
         paddingVertical:8,
 				color:'#000',
 				fontSize:16,
+        paddingLeft:90
 			}
 		};
 		const placeholder = {
-    	label: 'Select',
+    	label: '',
 		}
 
 		const isLoading = this.state.isLoading;
@@ -90,9 +92,9 @@ class AccountAddCodeScreen extends React.Component {
 					</TouchableOpacity>
 				 </View>
 
-					<Text style={{marginLeft:20, marginTop:20}}>Select City</Text>
+					<Text style={{marginLeft:20, fontWeight:'bold', marginTop:20}}>Select City</Text>
 					<View style={{margin:20, flexDirection:'row', position:'relative'}}>
-            <Text style={{color:'violet', fontSize:16, position:'absolute', left:90, top:8}}>Display current location (city) first</Text>
+            <Text style={{color:'gold', fontSize:18, position:'absolute', left:0, top:8}}>Select</Text>
 						<RNPickerSelect
 							style={pickerStyle}
 							placeholder={placeholder}
@@ -104,15 +106,15 @@ class AccountAddCodeScreen extends React.Component {
 							 ]}
 						 />
 					</View>
-					<Text style={{marginLeft:20, marginTop:20}}>Enter your Unique Code</Text>
+					<Text style={{marginLeft:20, fontWeight:'bold', marginTop:20}}>Enter your Unique Code</Text>
 					<TextInput
-							style={{padding:20}}
-							placeholder="Type book code"
-							onChangeText={text => this.setState({ book: text })}
+							style={{padding:20, fontSize:18, color:'gold'}}
+							placeholder="Type Unique Code"
+							onChangeText={text => this.setState({ book: text.toUpperCase() })}
 							value={this.state.book}
 							autoCapitalize={'none'}
 							autoCorrect={false}
-							placeholderTextColor={"gray"}
+							placeholderTextColor={"gold"}
 							underlineColorAndroid="transparent"
 						/>
 					<View>
