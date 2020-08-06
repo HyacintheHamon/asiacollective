@@ -21,7 +21,7 @@ export default class Scan extends React.Component {
   }
 
   componentDidMount() {
-     
+
   }
 
 	async checkPermissionCamera() {
@@ -42,7 +42,7 @@ export default class Scan extends React.Component {
 				return false;
 			}
 		}
-		
+
 		barcodeReceived(event){
 			this.props.navigation.state.params.handleOnBarCodeReceived(event);
 			this.props.navigation.goBack();
@@ -53,7 +53,7 @@ export default class Scan extends React.Component {
 		let torchOn = false;
     return (
 			<View style={{ flex: 1, backgroundColor:'#FFFFFF' }}>
-				
+
 				<View style={{position:'relative', alignItems:'center', marginTop:20, paddingVertical:24, }}>
 					<TouchableOpacity onPress={()=>{ this.props.navigation.goBack() }} style={{position:'absolute', left:0}}>
 						<View style={{paddingVertical:18, paddingHorizontal:18}}>
@@ -61,17 +61,9 @@ export default class Scan extends React.Component {
 						</View>
 					</TouchableOpacity>
 					<Text style={{ fontSize:16}}>Scan</Text>
-				
+
 				</View>
-				
-				<RNCamera
-					ref={ ref => this.rnCamera = ref }
-					captureAudio={ false }
-					onBarCodeRead={ null }
-					type={ userFront ? RNCamera.Constants.Type.front : RNCamera.Constants.Type.back }
-					flashMode={ torchOn ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off }
-					style={ { flex: 1,  } }>
-					
+
 					<QRScannerView
                 scanBarAnimateTime={ 3000 }
                 scanBarAnimateReverse={true}
@@ -85,9 +77,8 @@ export default class Scan extends React.Component {
                 maskColor={ '#000' }
                 torchOn={ torchOn }
               />
-					
-			</RNCamera>
-			   
+					 
+
       </View>
     );
   }
@@ -153,10 +144,10 @@ const styles = StyleSheet.create({
   facebookText: {
     color: AppStyles.color.white
   },
-	
-	
-	
-	
+
+
+
+
 	imageBottomMenu: {
     height: D.dp40,
     width: D.dp40,
