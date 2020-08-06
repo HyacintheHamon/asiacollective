@@ -383,6 +383,12 @@ export default class userStore {
 		return books;
 	}
 
+  getCheckoutUrl(location,callback){
+    axios.get(`${SERVER_URL}/api/checkout?location=${location}`).then(function (response) {
+			callback(response.data.data)
+  	});
+  }
+
 	getOffer(venue_id, callback){
 		axios.get(`${SERVER_URL}/api/offer?venue_id=${venue_id}`).then(function (response) {
 			var offers = response.data.data;

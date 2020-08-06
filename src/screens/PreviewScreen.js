@@ -23,6 +23,34 @@ import Modal from 'react-native-modal';
 import {WebView} from 'react-native-webview';
 var {width,height} = Dimensions.get('window');
 import {openSettings,request, check, PERMISSIONS, RESULTS} from 'react-native-permissions';
+import RNPickerSelect from 'react-native-picker-select';
+
+
+const pickerStyle = {
+	inputIOS: {
+		width:110,
+		height:40,
+		textAlign:'center',
+		backgroundColor:'#b39364',
+		paddingVertical:8,
+		color:'#FFF',
+		fontSize:16,
+	},
+	inputAndroid: {
+		width:110,
+		height:40,
+		textAlign:'center',
+		backgroundColor:'#b39364',
+		paddingVertical:8,
+		color:'#FFF',
+		fontSize:16,
+	}
+};
+const placeholder = {
+	label: 'Choose Book',
+	color: '#000',
+}
+
 
 import {
 	LocationItem,
@@ -91,6 +119,8 @@ class PreviewScreen extends React.Component {
 			offers: [],
 			isDisableAll: true,
 			displayBookCode: null,
+			availableBookCodes: [],
+			deal_checkout_url: null,
 		}
 	}
 
@@ -101,15 +131,28 @@ class PreviewScreen extends React.Component {
 			this.setState({ isFetchingOffers: false, offers: offers });
 
 			var books = await this.props.userStore.getBooks();
+			var availableBookCodes = [];
 			console.log(books,'books books', offers, venue);
 			if(books && books.length){
 				books.forEach((book)=>{
 					if(venue.user_id == book.fk_user_id){
 						if(book.redeem_status == 0 || book.redeem_status == "0"){
-							this.setState({isDisableAll: false, displayBookCode: book.book_number});
+							availableBookCodes.push( book.book_number );
+							this.setState({isDisableAll: false, });
 						}
 					}
 				});
+			}
+
+			this.setState({ availableBookCodes: availableBookCodes });
+
+			var loc = venue.venue_local_id.split('_')[0];
+			if (loc) {
+				if(availableBookCodes.length == 0){
+					this.props.userStore.getCheckoutUrl(loc,(deal_checkout_url)=>{
+						this.setState({ deal_checkout_url: deal_checkout_url });
+					});
+				}
 			}
 
 		});
@@ -123,17 +166,20 @@ class PreviewScreen extends React.Component {
 
 
 		setTimeout(() => {
-			 this.webref.injectJavaScript(`
-				 jQuery(document).ready(function(){
-					 document.getElementsByClassName('foot-new-pc')[0].style.display = "none";
-					 document.getElementsByClassName('foot-new-mobile')[0].style.display = "none";
-				 });
-				 setTimeout(function(){
-					 document.getElementsByClassName('foot-new-pc')[0].style.display = "none";
-					 document.getElementsByClassName('foot-new-mobile')[0].style.display = "none";
-				 },5000);
-				 `);
-		 }, 1000);
+			if(this.webref) {
+				this.webref.injectJavaScript(`
+					jQuery(document).ready(function(){
+						document.getElementsByClassName('foot-new-pc')[0].style.display = "none";
+						document.getElementsByClassName('foot-new-mobile')[0].style.display = "none";
+					});
+					setInterval(function(){
+						document.getElementsByClassName('foot-new-pc')[0].style.display = "none";
+						document.getElementsByClassName('foot-new-mobile')[0].style.display = "none";
+					},5000);
+					`);
+				}
+			}, 1000);
+
   };
 
 	async checkPermissionCamera() {
@@ -193,6 +239,12 @@ class PreviewScreen extends React.Component {
 		}
 
 		async handleOnClick(){
+			const { displayBookCode } = this.state;
+			if(!displayBookCode || displayBookCode.length == 0){
+				this.showToastMessage('Please select a book');
+				return;
+			}
+
 			if (Platform.OS == 'android') {
 					const permission = await this.checkPermissionCamera();
 					if (!permission) {
@@ -215,6 +267,12 @@ class PreviewScreen extends React.Component {
 
 	handleOnBarCodeReceived(event) {
 		//Toast.show('Type: ' + event.type + '\nData: ' + event.data);
+		const { displayBookCode } = this.state;
+		if(!displayBookCode || displayBookCode.length == 0){
+			this.showToastMessage('Please select a book & scan again');
+			return;
+		}
+
 		this.props.userStore.checkVenueQr({code:event.data, book_number: displayBookCode}, (isValid)=>{
 			if(isValid){
 				Alert.alert(
@@ -237,7 +295,7 @@ class PreviewScreen extends React.Component {
 
 	renderOffer(offer, i){
 		let { displayBookCode } = this.state;
-		return (<View key={`offer-${i}`} style={{marginVertical:10, marginBottom: 30, borderStyle: 'dashed', borderRadius: 1, borderColor:'#E7B876', borderWidth:2, padding:12, paddingBottom:60, position:'relative'}}>
+		return (<View key={`offer-${i}`} style={{marginVertical:10, marginBottom: 10, borderStyle: 'dashed', borderRadius: 1, borderColor:'#E7B876', borderWidth:2, padding:12, paddingBottom:60, position:'relative'}}>
 			<View style={{
 				width: 0,
 						 height: 0,
@@ -254,20 +312,31 @@ class PreviewScreen extends React.Component {
 			<Text style={{marginVertical:6, fontSize:16}}>{offer.offer_title}</Text>
 			<Text style={{marginBottom:10, color:'gray', fontSize:12}}>{offer.offer_condition ? offer.offer_condition: ""}</Text>
 			<Text style={{marginBottom:10, color:'gray', fontSize:12}}>{offer.offer_description}</Text>
-			{this.state.isDisableAll ? (<TouchableOpacity
-					onPress={()=>{ this.showToastMessage('Redeem Error'); }}
-					activeOpacity={0.8} style={{position:'absolute', bottom: -2, left:-2, right:-2}}>
-				<View style={{ height:40, backgroundColor: 'gray', alignItems:'center', justifyContent:'center'}}>
-					<Text style={{color:'#fff'}}>Redeem Privilege</Text>
-				</View>
-			</TouchableOpacity>): (<TouchableOpacity
-			onPress={()=>{ this.handleOnClick() }}
-					activeOpacity={0.8} style={{position:'absolute', bottom: -2, left:-2, right:-2}}>
-				<View style={{ height:40, backgroundColor: '#E7B876', alignItems:'center', justifyContent:'center'}}>
-					<Text style={{color:'#fff'}}>Redeem Privilege {displayBookCode}</Text>
-				</View>
-			</TouchableOpacity>)}
-		</View>);
+			<View style={{flexDirection:'row', position:'absolute', bottom: -2, left:-2, right:-2}}>
+				{this.state.isDisableAll ? (<TouchableOpacity
+						onPress={()=>{ this.showToastMessage('Redeem Error'); }}
+						activeOpacity={0.8} style={{}}>
+					<View style={{ height:40, backgroundColor: 'gray', width:(width-48), alignItems:'center', justifyContent:'center'}}>
+						<Text style={{color:'#fff'}}>Redeem Privilege</Text>
+					</View>
+				</TouchableOpacity>): (<TouchableOpacity
+				onPress={()=>{ this.handleOnClick() }}
+						activeOpacity={0.8} style={{}}>
+					<View style={{ height:40, backgroundColor: '#E7B876', width:(width-48)-110, alignItems:'center', justifyContent:'center'}}>
+						<Text style={{color:'#fff'}}>Redeem Privilege</Text>
+					</View>
+				</TouchableOpacity>)}
+				{!this.state.isDisableAll && this.state.availableBookCodes.length != 0 ? (<RNPickerSelect
+					style={pickerStyle}
+					placeholder={Object.assign(placeholder,{value:this.state.availableBookCodes[0]})}
+					onValueChange={(value) => this.setState({ displayBookCode:value })}
+					items={this.state.availableBookCodes.map((c)=>{
+						 return { label: c, value: c };
+					 })}
+				 />) : null }
+			</View>
+			</View>);
+
 	}
 
 	showToastMessage(message){
@@ -278,7 +347,7 @@ class PreviewScreen extends React.Component {
 
 	render() {
 		let {venue} = this.props.navigation.state.params;
-		let { offers, isFetchingOffers } = this.state;
+		let { offers, isFetchingOffers, deal_checkout_url } = this.state;
     return (
 			<View style={{ flex: 1, backgroundColor:'#FFFFFF' }}>
 				<StatusBar backgroundColor="white" barStyle={'dark-content'} />
@@ -303,6 +372,16 @@ class PreviewScreen extends React.Component {
 								{isFetchingOffers ? (<ActivityIndicator size="small" color="#000" />) : offers.map((offer,i)=>{
 									return this.renderOffer(offer, i)
 								})}
+
+								{this.state.deal_checkout_url && this.state.deal_checkout_url.length != 0 ? (<TouchableOpacity onPress={()=>{
+										this.setState({url:this.state.deal_checkout_url},()=>{
+											this.toggleModal();
+										});
+								}}>
+									<View style={{ width:width - 48, marginBottom:30, textAlign:'center', height:40, alignItems:'center', justifyContent:'center' }}>
+										<Text style={{color:'#E7B876', fontWeight:'bold'}}>Purchase Privilege</Text>
+									</View>
+								</TouchableOpacity>): null }
 
 								<Text style={{marginVertical:6, fontSize:22, marginBottom:10}}>About</Text>
 								<Text style={{marginBottom:10, lineHeight:26, fontSize:13}}>{venue.description}</Text>
