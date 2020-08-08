@@ -39,7 +39,7 @@ class DiscoveryList extends React.Component {
 							<Ionicons name="md-close" size={32} color={"#000"} />
 						</View>
 					</TouchableOpacity>
-					<Text style={{ fontSize:16}}>DOWNTOWN</Text>
+					<Text style={{ fontSize:16}}></Text>
 				</View>
 
 				<FlatList

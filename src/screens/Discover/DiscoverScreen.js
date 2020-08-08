@@ -25,7 +25,7 @@ class LocationPlaceHolder extends React.PureComponent {
 			<PlaceholderLine width={50} />
 			<PlaceholderLine width={50} />
 		</Placeholder>
-		
+
 		<Placeholder
 		style={{marginBottom:10}}
 			Animation={Fade}>
@@ -50,27 +50,27 @@ class DiscoverScreen extends React.Component {
 			 locations:[]
 		 };
 	 }
-	 
+
 	 _onRefresh = () => {
 		this.setState({refreshing: true});
 		this.props.userStore.getLocations((locations)=>{
 			this.setState({isLoading: false, refreshing: false, locations:locations});
 		});
 	}
-	
+
 	componentDidMount(){
 		this._onRefresh();
 	}
 
-	 
+
   render() {
-		
+
     return (
       <View style={{ flex: 1, backgroundColor:'#FFFFFF', paddingLeft:20,paddingRight:20}}>
 			<StatusBar backgroundColor="white" barStyle={'dark-content'} />
-        <Text style={{marginTop:36, marginBottom:36, fontSize:36}}>DISCOVER</Text>
-				
-			
+        <Text style={{marginTop:36, marginBottom:36, fontSize:36}}>VENUES</Text>
+
+
 			{this.state.isLoading?(<LocationPlaceHolder />):(<FlatList
 						 data={this.state.locations}
 						 showsHorizontalScrollIndicator={false}
@@ -92,7 +92,7 @@ class DiscoverScreen extends React.Component {
 								 }}
 							 />);
 						 }}/>)}
-					 
+
       </View>
     );
   }

@@ -105,18 +105,18 @@ const DealNavigation = createStackNavigator({
 });
 
 var HomeNavigation = createBottomTabNavigator({
-  Discover: DiscoverNavigation,
-	Privilege: DealNavigation,
+  Venues: DiscoverNavigation,
+	Shop: DealNavigation,
   Account: AccountNavigation,
 },  {
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, horizontal, tintColor }) => {
         const { routeName } = navigation.state;
         let iconName;
-        if (routeName === 'Discover') {
+        if (routeName === 'Venues') {
           iconName = `home`;
 					return <SimpleLineIcons name={iconName} size={horizontal ? 20 : 25} color={tintColor} />;
-        } else if (routeName === 'Privilege') {
+        } else if (routeName === 'Shop') {
           iconName = `present`;
 					return <SimpleLineIcons name={iconName} size={horizontal ? 20 : 25} color={tintColor} />;
         }
