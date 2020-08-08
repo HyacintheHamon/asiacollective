@@ -278,7 +278,7 @@ class PreviewScreen extends React.Component {
 			if(isValid){
 				Alert.alert(
 					"Success",
-					"Offer can now be claimed.",
+					"Your privilege can now be redeemed.",
 					[{ text: "OK", onPress: () => console.log("OK Pressed") }],
 					{ cancelable: true }
 				);
@@ -286,7 +286,7 @@ class PreviewScreen extends React.Component {
 			else {
 				Alert.alert(
 					"Error",
-					"Offer invalid.",
+					"Privilege redemption failed",
 					[{ text: "CANCEL", onPress: () => console.log("OK Pressed") }],
 					{ cancelable: true }
 				);
