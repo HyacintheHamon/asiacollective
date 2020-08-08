@@ -499,30 +499,30 @@ class DiscoverPreview extends React.Component {
 										<Text style={{ width:80, textAlign:'center', fontSize:12, color:"#E7B876"}}>Bar</Text>
 									</View>
 								</TouchableOpacity>
-								<TouchableOpacity onPress={()=>{ this.addTypeFilter('beach club') }} activeOpacity={0.8}>
+								{/*<TouchableOpacity onPress={()=>{ this.addTypeFilter('beach club') }} activeOpacity={0.8}>
 									<View style={{width:80, opacity: typeFilter.indexOf('beach club') == -1 ? 1 : 0.4}}>
 										<View style={{alignSelf:'center', borderRadius:26, width:52, height:52, borderWidth:1, borderColor:"#E7B876", alignItems:'center', justifyContent:'center'}}>
 											<FontAwesome5 name={"umbrella-beach"} size={22} color={"#E7B876"}  />
 										</View>
 										<Text style={{ width:80, textAlign:'center', fontSize:12, color:"#E7B876"}}>Beach Club</Text>
 									</View>
-								</TouchableOpacity>
-								<TouchableOpacity onPress={()=>{ this.addTypeFilter('spa') }} activeOpacity={0.8}>
+								</TouchableOpacity> */}
+								{/*<TouchableOpacity onPress={()=>{ this.addTypeFilter('spa') }} activeOpacity={0.8}>
 									<View style={{width:80, opacity: typeFilter.indexOf('spa') == -1 ? 1 : 0.4}}>
 										<View style={{alignSelf:'center', borderRadius:26, width:52, height:52, borderWidth:1, borderColor:"#E7B876", alignItems:'center', justifyContent:'center'}}>
 											<MaterialIcons name={"spa"} size={26} color={"#E7B876"}  />
 										</View>
 										<Text style={{ width:80, textAlign:'center', fontSize:12, color:"#E7B876"}}>Spa</Text>
 									</View>
-								</TouchableOpacity>
-								<TouchableOpacity onPress={()=>{ this.addTypeFilter('hotel') }} activeOpacity={0.8}>
+								</TouchableOpacity>*/}
+								{/*<TouchableOpacity onPress={()=>{ this.addTypeFilter('hotel') }} activeOpacity={0.8}>
 									<View style={{width:80, opacity: typeFilter.indexOf('hotel') == -1 ? 1 : 0.4}}>
 										<View style={{alignSelf:'center', borderRadius:26, width:52, height:52, borderWidth:1, borderColor:"#E7B876", alignItems:'center', justifyContent:'center'}}>
 											<MaterialCommunityIcons name={"hotel"} size={26} color={"#E7B876"}  />
 										</View>
 										<Text style={{ width:80, textAlign:'center', fontSize:12, color:"#E7B876"}}>Hotel</Text>
 									</View>
-								</TouchableOpacity>
+								</TouchableOpacity>*/}
 
 							</ScrollView>
 
@@ -540,9 +540,9 @@ class DiscoverPreview extends React.Component {
 									<TouchableOpacity onPress={()=>{ this.addCuisineFilter('japanese') }} activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
 										<Text style={{paddingVertical:10, color: cuisineFilter.indexOf('japanese') == -1 ? 'black' : 'gray', fontSize:16}}>Japanese</Text>
 									</TouchableOpacity>
-									<TouchableOpacity onPress={()=>{ this.addCuisineFilter('greek') }} activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
+									{/*<TouchableOpacity onPress={()=>{ this.addCuisineFilter('greek') }} activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
 										<Text style={{paddingVertical:10, color: cuisineFilter.indexOf('greek') == -1 ? 'black' : 'gray', fontSize:16}}>Greek</Text>
-									</TouchableOpacity>
+									</TouchableOpacity>*/}
 									<TouchableOpacity onPress={()=>{ this.addCuisineFilter('italian') }} activeOpacity={0.8} style={{marginLeft:4,marginBottom:10}}>
 										<Text style={{paddingVertical:10, color: cuisineFilter.indexOf('italian') == -1 ? 'black' : 'gray', fontSize:16}}>Italian</Text>
 									</TouchableOpacity>
