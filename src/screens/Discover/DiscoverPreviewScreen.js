@@ -188,7 +188,7 @@ class SecondRoute extends React.Component {
 				currentLat: selectedLocation.coordinates.latitude,
 				currentLong: selectedLocation.coordinates.longitude
 			})
-		},5000);
+		},3000);
 
 	}
 
@@ -371,7 +371,7 @@ class DiscoverPreview extends React.Component {
 			selectedTypeFilters = temp;
 		}
 	  this.setState({typeFilter:  selectedTypeFilters, isFilterApplied:false}, ()=>{
-			
+
 		});
 	}
 
@@ -389,7 +389,7 @@ class DiscoverPreview extends React.Component {
 			selectedCuisineFilters = temp;
 		}
 	  this.setState({cuisineFilter:  selectedCuisineFilters, isFilterApplied:false}, ()=>{
-			
+
 		});
 	}
 
