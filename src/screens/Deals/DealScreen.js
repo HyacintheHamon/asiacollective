@@ -24,7 +24,7 @@ export default class DealScreen extends React.Component {
 		componentDidMount(){
 			this.props.userStore.getDeals((deals)=>{
         this.props.userStore.getVenues((venues) => {
-          
+
             deals = deals.map(function(currentVal){
               currentVal["venue"] = currentVal["venue"].map(function(currentVenue){
                 let foundVenue = venues.find(function(venue){
@@ -70,6 +70,28 @@ export default class DealScreen extends React.Component {
 	 </Placeholder></View>)
  }
 
+ renderLeftArrows() {
+   var { deals } = this.state;
+   if (deals.length == 1) {
+     return null;
+   }
+
+   return (<TouchableOpacity activeOpacity={0.8} style={{position:'absolute', top: '50%', marginTop:-50, left:-20 }} onPress={() => this._carousel2.snapToPrev()}>
+     <Ionicons name="arrow-back-circle" size={50} color="gray"/>
+   </TouchableOpacity>);
+ }
+
+ renderRightArrows() {
+   var { deals } = this.state;
+   if (deals.length == 1) {
+     return null;
+   }
+
+   return (<TouchableOpacity activeOpacity={0.8} style={{position:'absolute', top: '50%', marginTop:-50, right:-20 }} onPress={() => this._carousel2.snapToNext()}>
+     <Ionicons name="arrow-forward-circle" size={50} color="gray"/>
+   </TouchableOpacity>);
+ }
+
   render() {
     return (
 			<View style={{ flex: 1, backgroundColor:'#f1f1f1', paddingLeft:20,paddingRight:20}}>
@@ -83,12 +105,8 @@ export default class DealScreen extends React.Component {
 							sliderWidth={width-40}
 							itemWidth={width-40}
 						/>
-						<TouchableOpacity activeOpacity={0.8} style={{position:'absolute', top: '50%', marginTop:-50, left:-20 }} onPress={() => this._carousel2.snapToPrev()}>
-							<Ionicons name="arrow-back-circle" size={50} color="gray"/>
-						</TouchableOpacity>
-						<TouchableOpacity activeOpacity={0.8} style={{position:'absolute', top: '50%', marginTop:-50, right:-20 }} onPress={() => this._carousel2.snapToNext()}>
-							<Ionicons name="arrow-forward-circle" size={50} color="gray"/>
-						</TouchableOpacity>
+						{this.renderLeftArrows()}
+						{this.renderRightArrows()}
 				</View>)}
       </View>
     );
