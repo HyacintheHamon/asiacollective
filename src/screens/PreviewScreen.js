@@ -126,6 +126,10 @@ class PreviewScreen extends React.Component {
 	}
 
 	async componentDidMount(){
+		this.reloadPrivilege();
+	}
+
+	reloadPrivilege(){
 		let {venue} = this.props.navigation.state.params;
 		this.setState({isFetchingOffers: true, displayBookCode: null });
 		this.props.userStore.getOffer(venue.id, async (offers)=>{
@@ -279,7 +283,12 @@ class PreviewScreen extends React.Component {
 				Alert.alert(
 					"Success",
 					"Your privilege can now be redeemed.",
-					[{ text: "OK", onPress: () => console.log("OK Pressed") }],
+					[{ text: "OK", onPress: () => {
+							if(this.reloadPrivilege){
+								this.reloadPrivilege();
+							}
+							console.log("OK Pressed")
+						} }],
 					{ cancelable: true }
 				);
 			}
@@ -287,7 +296,12 @@ class PreviewScreen extends React.Component {
 				Alert.alert(
 					"Error",
 					"Privilege redemption failed",
-					[{ text: "CANCEL", onPress: () => console.log("OK Pressed") }],
+					[{ text: "CANCEL", onPress: () => {
+							if(this.reloadPrivilege){
+								this.reloadPrivilege();
+							}
+							console.log("cancel Pressed")
+						} }],
 					{ cancelable: true }
 				);
 			}
