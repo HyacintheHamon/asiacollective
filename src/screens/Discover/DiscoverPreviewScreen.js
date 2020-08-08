@@ -68,16 +68,20 @@ class FirstRoute extends React.Component {
 	}
 
 	renderList(){
+		const paginatedSection1 = paginate(this.props.venues, this.props.venues.length/4, 1);
+		const paginatedSection2 = paginate(this.props.venues, this.props.venues.length/4, 2);
+		const paginatedSection3 = paginate(this.props.venues, this.props.venues.length/4, 3);
+		const paginatedSection4 = paginate(this.props.venues, this.props.venues.length/4, 4);
 		return (<ScrollView>
 
-						<View style={{flexDirection:'row', justifyContent:'space-between', marginRight:20, paddingVertical:8}}>
+						{paginatedSection1.length != 0 ? (<View style={{flexDirection:'row', justifyContent:'space-between', marginRight:20, paddingVertical:8}}>
 							<Text style={{fontSize:18}}>DOWNTOWN</Text>
-							<TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.props.nav.navigate('DiscoveryList', { venues: this.props.venues }) }}>
+							<TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.props.nav.navigate('DiscoveryList', { venues: paginatedSection1 }) }}>
 								<Text style={{color:'orange', fontSize:12}}>View All</Text>
 							</TouchableOpacity>
-						</View>
+						</View>) : null}
 						<FlatList
-							 data={paginate(this.props.venues, this.props.venues.length/4, 1) }
+							 data={paginatedSection1}
 							 horizontal={true}
 							 showsHorizontalScrollIndicator={false}
 							 renderItem={({ item })=>{
@@ -90,14 +94,14 @@ class FirstRoute extends React.Component {
 							 }}
 							 keyExtractor={(item, index) => `locVenue-${index.toString()}`}
 					 />
-					 <View style={{flexDirection:'row', justifyContent:'space-between', marginRight:20, paddingVertical:8}}>
+					 {paginatedSection2.length != 0 ? (<View style={{flexDirection:'row', justifyContent:'space-between', marginRight:20, paddingVertical:8}}>
 						 <Text style={{fontSize:18}}></Text>
-						 <TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.props.nav.navigate('DiscoveryList', { venues: this.props.venues }) }}>
+						 <TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.props.nav.navigate('DiscoveryList', { venues: paginatedSection2 }) }}>
 							 <Text style={{color:'orange', fontSize:12}}>View All</Text>
 						 </TouchableOpacity>
-					 </View>
+					 </View>): null}
 					 <FlatList
-							data={paginate(this.props.venues, this.props.venues.length/4, 2) }
+							data={paginatedSection2 }
 							horizontal={true}
 							showsHorizontalScrollIndicator={false}
 							renderItem={({ item })=>{
@@ -111,14 +115,14 @@ class FirstRoute extends React.Component {
 							keyExtractor={(item, index) => `locVenue2-${index.toString()}`}
 					/>
 
-					<View style={{flexDirection:'row', justifyContent:'space-between', marginRight:20, paddingVertical:8}}>
+					{paginatedSection3.length != 0 ? (<View style={{flexDirection:'row', justifyContent:'space-between', marginRight:20, paddingVertical:8}}>
 						<Text style={{fontSize:18}}></Text>
-						<TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.props.nav.navigate('DiscoveryList', { venues: this.props.venues }) }}>
+						<TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.props.nav.navigate('DiscoveryList', { venues: paginatedSection3 }) }}>
 							<Text style={{color:'orange', fontSize:12}}>View All</Text>
 						</TouchableOpacity>
-					</View>
+					</View>): null}
 					<FlatList
-						 data={paginate(this.props.venues, this.props.venues.length/4, 3) }
+						 data={paginatedSection3 }
 						 horizontal={true}
 						 showsHorizontalScrollIndicator={false}
 						 renderItem={({ item })=>{
@@ -132,14 +136,14 @@ class FirstRoute extends React.Component {
 						 keyExtractor={(item, index) => `locVenue3-${index.toString()}`}
 				 />
 
-				 <View style={{flexDirection:'row', justifyContent:'space-between', marginRight:20, paddingVertical:8}}>
+				 {paginatedSection4.length != 0 ? (<View style={{flexDirection:'row', justifyContent:'space-between', marginRight:20, paddingVertical:8}}>
 					 <Text style={{fontSize:18}}></Text>
-					 <TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.props.nav.navigate('DiscoveryList', { venues: this.props.venues }) }}>
+					 <TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.props.nav.navigate('DiscoveryList', { venues: paginatedSection4 }) }}>
 						 <Text style={{color:'orange', fontSize:12}}>View All</Text>
 					 </TouchableOpacity>
-				 </View>
+				 </View>): null}
 				 <FlatList
-						data={paginate(this.props.venues, this.props.venues.length/4, 4) }
+						data={paginatedSection4 }
 						horizontal={true}
 						showsHorizontalScrollIndicator={false}
 						renderItem={({ item })=>{
