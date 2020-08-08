@@ -340,7 +340,8 @@ class PreviewScreen extends React.Component {
 				</TouchableOpacity>)}
 				{ !this.state.isDisableAll && this.state.availableBookCodes.length != 0 ? (<RNPickerSelect
 					style={pickerStyle}
-					placeholder={Object.assign(placeholder,{value:this.state.availableBookCodes[0]})}
+					placeholder={Object.assign(placeholder)}
+					value={this.state.availableBookCodes.length == 1 ? this.state.availableBookCodes[0] : (this.state.displayBookCode ? this.state.displayBookCode : null)  }
 					onValueChange={(value) => this.setState({ displayBookCode:value })}
 					items={this.state.availableBookCodes.map((c)=>{
 						 return { label: c, value: c };
