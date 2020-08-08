@@ -28,27 +28,28 @@ import RNPickerSelect from 'react-native-picker-select';
 
 const pickerStyle = {
 	inputIOS: {
-		width:110,
+		width:150,
 		height:40,
 		textAlign:'center',
 		backgroundColor:'#b39364',
 		paddingVertical:8,
 		color:'#FFF',
-		fontSize:16,
+		fontSize:14,
 	},
 	inputAndroid: {
-		width:110,
+		width:150,
 		height:40,
 		textAlign:'center',
 		backgroundColor:'#b39364',
 		paddingVertical:8,
 		color:'#FFF',
-		fontSize:16,
+		fontSize:14,
 	}
 };
 const placeholder = {
-	label: 'Choose Book',
+	label: 'Choose Unique Code',
 	color: '#000',
+	fontSize:10,
 }
 
 
@@ -333,7 +334,7 @@ class PreviewScreen extends React.Component {
 				</TouchableOpacity>): (<TouchableOpacity
 				onPress={()=>{ this.handleOnClick() }}
 						activeOpacity={0.8} style={{}}>
-					<View style={{ height:40, backgroundColor: '#E7B876', width:(width-48)-110, alignItems:'center', justifyContent:'center'}}>
+					<View style={{ height:40, backgroundColor: '#E7B876', width:(width-48)-150, alignItems:'center', justifyContent:'center'}}>
 						<Text style={{color:'#fff'}}>Redeem Privilege</Text>
 					</View>
 				</TouchableOpacity>)}
