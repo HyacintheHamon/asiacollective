@@ -122,11 +122,18 @@ class PreviewScreen extends React.Component {
 			displayBookCode: null,
 			availableBookCodes: [],
 			deal_checkout_url: null,
+
+			redeemSuccessModal: false,
+			redeemErrorModal: false
 		}
 	}
 
 	async componentDidMount(){
 		this.reloadPrivilege();
+
+		// setTimeout(()=>{
+		// 	this.setState({redeemErrorModal: true });
+		// },4000)
 	}
 
 	reloadPrivilege(){
@@ -366,6 +373,37 @@ class PreviewScreen extends React.Component {
 
 	}
 
+	renderSuccessModal(){
+		return (<View style={{ height:300, borderRadius:10, padding:20, backgroundColor:'#fff' }}>
+		<EvilIcons name={"check"} size={160} color={"green"} style={{alignSelf:'center'}} />
+			<Text style={{fontSize:24, marginTop:20, textAlign:'center'}}>Success</Text>
+			<Text style={{fontSize:16, marginTop:4, textAlign:'center'}}>Your privilege can now be redeemed</Text>
+			<TouchableOpacity onPress={()=>{ this.handleCloseSuccessAndRedeeemModal() }} style={{position:'absolute', bottom:0, left:0, right:0,}}>
+				<View style={{ alignItems:'center', justifyContent:'center', backgroundColor:'transparent', padding:20}}>
+					<Text style={{fontSize:16}}>OK</Text>
+				</View>
+			</TouchableOpacity>
+		</View>);
+	}
+
+	renderErrorModal(){
+		return (<View style={{ height:300, borderRadius:10, padding:20, backgroundColor:'#fff' }}>
+		<EvilIcons name={"close-o"} size={160} color={"red"} style={{alignSelf:'center'}} />
+			<Text style={{fontSize:24, marginTop:20, textAlign:'center'}}>Error</Text>
+			<Text style={{fontSize:16, marginTop:4, textAlign:'center'}}>Privilege redemption failed</Text>
+			<TouchableOpacity onPress={()=>{ this.handleCloseSuccessAndRedeeemModal() }} style={{position:'absolute', bottom:0, left:0, right:0,}}>
+				<View style={{ alignItems:'center', justifyContent:'center', backgroundColor:'transparent', padding:20}}>
+					<Text style={{fontSize:16}}>OK</Text>
+				</View>
+			</TouchableOpacity>
+		</View>);
+	}
+
+	handleCloseSuccessAndRedeeemModal () {
+		this.reloadPrivilege();
+		this.setState({ redeemErrorModal: false, redeemSuccessModal: false });
+	}
+
 	showToastMessage(message){
 		this.refs.toast.show(message, 500, () => {
 
@@ -466,6 +504,12 @@ class PreviewScreen extends React.Component {
 					 					/>
 			          </View>
 	        </Modal>
+
+					<Modal isVisible={this.state.redeemSuccessModal || this.state.redeemErrorModal}>
+		        {this.state.redeemSuccessModal ? this.renderSuccessModal() : null}
+						{this.state.redeemErrorModal ? this.renderErrorModal() : null}
+		      </Modal>
+
 			</View>
     );
   }
