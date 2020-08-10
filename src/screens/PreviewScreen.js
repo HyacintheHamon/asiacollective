@@ -150,9 +150,6 @@ class PreviewScreen extends React.Component {
 			 });
 		});
 
-		// setTimeout(()=>{
-		// 	this.setState({redeemErrorModal: true });
-		// },4000)
 	}
 
 	reloadPrivilege(){
@@ -300,30 +297,32 @@ class PreviewScreen extends React.Component {
 
 		this.props.userStore.checkVenueQr({code:event.data, book_number: displayBookCode}, (isValid)=>{
 			if(isValid){
-				Alert.alert(
-					"Success",
-					"Your privilege can now be redeemed.",
-					[{ text: "OK", onPress: () => {
-							if(this.reloadPrivilege){
-								this.reloadPrivilege();
-							}
-							console.log("OK Pressed")
-						} }],
-					{ cancelable: true }
-				);
+				this.setState({redeemSuccessModal: true });
+				// Alert.alert(
+				// 	"Success",
+				// 	"Your privilege can now be redeemed.",
+				// 	[{ text: "OK", onPress: () => {
+				// 			if(this.reloadPrivilege){
+				// 				this.reloadPrivilege();
+				// 			}
+				// 			console.log("OK Pressed")
+				// 		} }],
+				// 	{ cancelable: true }
+				// );
 			}
 			else {
-				Alert.alert(
-					"Error",
-					"Privilege redemption failed",
-					[{ text: "CANCEL", onPress: () => {
-							if(this.reloadPrivilege){
-								this.reloadPrivilege();
-							}
-							console.log("cancel Pressed")
-						} }],
-					{ cancelable: true }
-				);
+				this.setState({redeemErrorModal: true });
+				// Alert.alert(
+				// 	"Error",
+				// 	"Privilege redemption failed",
+				// 	[{ text: "CANCEL", onPress: () => {
+				// 			if(this.reloadPrivilege){
+				// 				this.reloadPrivilege();
+				// 			}
+				// 			console.log("cancel Pressed")
+				// 		} }],
+				// 	{ cancelable: true }
+				// );
 			}
 		});
 	};
