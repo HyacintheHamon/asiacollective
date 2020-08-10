@@ -437,6 +437,10 @@ class DiscoverPreview extends React.Component {
 					}
 				});
 
+
+				if(typeFilter.length == 0 && cuisineFilter.length == 0 ){
+					result=true;
+				}
 				return result;
 			});
 		}
@@ -479,7 +483,7 @@ class DiscoverPreview extends React.Component {
 							</TouchableOpacity>
 							<Text style={{ fontSize:16, alignSelf:'center'}}>FILTER</Text>
 
-							<TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.toggleModal() }} style={{position:'absolute', right:0, top:6}}>
+							<TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.setState({typeFilter: [],cuisineFilter:[]}); this.toggleModal() }} style={{position:'absolute', right:0, top:6}}>
 								<Text style={{ fontSize:14, paddingVertical:20, paddingHorizontal:18, color:'orange'}}>CLEAR</Text>
 							</TouchableOpacity>
 						</View>
