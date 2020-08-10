@@ -419,15 +419,23 @@ class DiscoverPreview extends React.Component {
 
 				typeFilter.forEach((category)=>{
 					if(currentVal.category.toLowerCase().indexOf(category) != -1){
-						result = true;
+
+						if(cuisineFilter.length!= 0){
+							cuisineFilter.forEach((cuisine)=>{
+								if(currentVal.cuisine.toLowerCase().indexOf(cuisine) != -1){
+									result = true;
+								}
+							});
+						}
+						else {
+							result = true;
+						}
+
+					}
+					else {
+						result = false;
 					}
 				});
-
-				cuisineFilter.forEach((cuisine)=>{
-					if(currentVal.cuisine.toLowerCase().indexOf(cuisine) != -1){
-						result = true;
-					}
-				})
 
 				return result;
 			});
