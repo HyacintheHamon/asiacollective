@@ -74,6 +74,20 @@ export default class userStore {
 
 	async logoutUser(){
 		this.removeDeviceFCMToken(this.lastFCMToken, ()=>{
+      this.user = {
+        uid:'',
+    		email: '',
+    		status: '',
+
+    		profileUrl: '',
+    		firstName: '',
+    		lastName: '',
+    		contact:'',
+    		books: [],
+    		authSource: "",
+    		isEnableThirdPartyLogin: false
+      };
+
 			AsyncStorage.setItem('user', JSON.stringify({}));
 			firebase.auth().signOut().then(async ()=> {
 				console.log("Signing out");
@@ -371,7 +385,7 @@ export default class userStore {
 
 	async getBooks() {
 		var books = [];
-
+console.log('books here now', this.user);
 		if(this.user.books.length){
 			let book = this.user.books[0];
 			await asyncForEach( this.user.books, async function(book){
@@ -384,7 +398,7 @@ export default class userStore {
 	}
 
   getCheckoutUrl(location,callback){
-    axios.get(`${SERVER_URL}/api/checkout?location=${location}`).then(function (response) {
+    axios.get(`${SERVER_URL}/api/checkout-urls-by-location?location=${location}`).then(function (response) {
 			callback(response.data.data)
   	});
   }

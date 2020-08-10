@@ -115,6 +115,7 @@ class PreviewScreen extends React.Component {
 	constructor(props){
 		super();
 		this.state = {
+			isSignedIn: false,
 			isModalVisible: false,
 			isFetchingOffers: true,
 			offers: [],
@@ -122,6 +123,8 @@ class PreviewScreen extends React.Component {
 			displayBookCode: null,
 			availableBookCodes: [],
 			deal_checkout_url: null,
+			deal_description_url: null,
+			isBuyPrivilegeModalVisible: false,
 
 			redeemSuccessModal: false,
 			redeemErrorModal: false
@@ -129,7 +132,23 @@ class PreviewScreen extends React.Component {
 	}
 
 	async componentDidMount(){
+		const { venue } = this.props.navigation.state.params;
+		const loc = venue.venue_local_id.split('_')[0];
+
 		this.reloadPrivilege();
+
+		this.props.userStore.isSignedIn((isSignedIn)=>{
+			if(isSignedIn){
+				this.setState({isSignedIn: true});
+			}
+		});
+
+		this.props.userStore.getCheckoutUrl(loc,(urls)=>{
+			this.setState({
+				deal_checkout_url: urls.checkout_url,
+				deal_description_url: urls.checkout_url_description
+			 });
+		});
 
 		// setTimeout(()=>{
 		// 	this.setState({redeemErrorModal: true });
@@ -137,7 +156,7 @@ class PreviewScreen extends React.Component {
 	}
 
 	reloadPrivilege(){
-		let {venue} = this.props.navigation.state.params;
+		let { venue } = this.props.navigation.state.params;
 		this.setState({isFetchingOffers: true, displayBookCode: null });
 		this.props.userStore.getOffer(venue.id, async (offers)=>{
 			this.setState({ isFetchingOffers: false, offers: offers });
@@ -150,21 +169,15 @@ class PreviewScreen extends React.Component {
 					if(venue.user_id == book.fk_user_id){
 						if(book.redeem_status == 0 || book.redeem_status == "0"){
 							availableBookCodes.push( book.book_number );
-							this.setState({isDisableAll: false, });
+							this.setState({isDisableAll: false });
 						}
 					}
 				});
 			}
 
 			this.setState({ availableBookCodes: availableBookCodes });
-
-			var loc = venue.venue_local_id.split('_')[0];
-			if (loc) {
-				if(availableBookCodes.length == 0){
-					this.props.userStore.getCheckoutUrl(loc,(deal_checkout_url)=>{
-						this.setState({ deal_checkout_url: deal_checkout_url });
-					});
-				}
+			if(availableBookCodes.length == 1){
+				this.setState({ displayBookCode: availableBookCodes[0] });
 			}
 
 		});
@@ -335,14 +348,17 @@ class PreviewScreen extends React.Component {
 			<Text style={{marginBottom:10, color:'gray', fontSize:12}}>{offer.offer_condition ? offer.offer_condition: ""}</Text>
 			<Text style={{marginBottom:10, color:'gray', fontSize:12}}>{offer.offer_description}</Text>
 			<View style={{flexDirection:'row', position:'absolute', bottom: -2, left:-2, right:-2}}>
-				{this.state.isDisableAll ? (<TouchableOpacity
+				{this.state.isDisableAll || this.state.availableBookCodes.length == 0 ? (<TouchableOpacity
 						onPress={()=>{
 							if(this.state.availableBookCodes.length == 0){
-								if(this.state.deal_checkout_url && this.state.deal_checkout_url.length){
-									this.setState({url:this.state.deal_checkout_url},()=>{
-										this.toggleModal();
-									});
-								}
+								// login here
+								this.setState({isBuyPrivilegeModalVisible:true});
+
+								// if(this.state.deal_checkout_url && this.state.deal_checkout_url.length){
+								// 	this.setState({url:this.state.deal_checkout_url},()=>{
+								// 		this.toggleModal();
+								// 	});
+								// }
 							}
 							else {
 								this.showToastMessage('Redeem Error');
@@ -509,6 +525,54 @@ class PreviewScreen extends React.Component {
 		        {this.state.redeemSuccessModal ? this.renderSuccessModal() : null}
 						{this.state.redeemErrorModal ? this.renderErrorModal() : null}
 		      </Modal>
+
+					<Modal
+							isVisible={this.state.isBuyPrivilegeModalVisible}
+							deviceHeight={height+30}
+							style={{marginLeft:0,marginRight:0, marginTop:0,marginBottom:0, height:height+30}}
+							onBackdropPress={() => this.setState({isBuyPrivilegeModalVisible: false})}>
+			          <View style={{ backgroundColor:'#fff', height:height-100, borderTopLeftRadius: 14, borderTopRightRadius: 14, width:width, position:'absolute', bottom:0,left:0,right:0}}>
+			            <TouchableOpacity activeOpacity={0.8} style={{paddingHorizontal:12, paddingVertical:6}} onPress={()=>{ this.setState({isBuyPrivilegeModalVisible:false}) }}>
+										<Ionicons name="md-close" size={28} color={"#000"} />
+									</TouchableOpacity>
+									<View style={{backgroundColor:'#fff', height:90, alignItems:'center', justifyContent:'center'}}>
+										{!this.state.isSignedIn? (<View style={{flexDirection:'row'}}>
+											<Text style={{textAlign:'center', paddingHorizontal:10, paddingVertical:2}}>Not logged in yet?</Text>
+											<TouchableOpacity onPress={()=>{
+												this.setState({isBuyPrivilegeModalVisible: false}, ()=>{
+													this.props.navigation.goBack();
+													setTimeout(()=>{
+														this.props.navigation.dangerouslyGetParent().navigate('Account')
+													},600);
+												});
+											}}>
+												<Text style={{paddingHorizontal:6, paddingVertical:2, textAlign:'center'}}>Sign In</Text>
+												</TouchableOpacity>
+											</View>): null }
+
+											<TouchableOpacity onPress={()=>{
+												if(this.state.deal_checkout_url && this.state.deal_checkout_url.length){
+													this.setState({isBuyPrivilegeModalVisible: false});
+													setTimeout(()=>{
+														this.setState({url:this.state.deal_checkout_url},()=>{
+															this.toggleModal();
+														});
+													},1000);
+												}
+											}}>
+												<Text style={{paddingHorizontal:6, paddingVertical:14, textAlign:'center'}}>Buy</Text>
+												</TouchableOpacity>
+									</View>
+
+									<WebView
+											source={{uri: this.state.deal_description_url}}
+						 				 	style={{marginTop: 4, backgroundColor:'#000'}}
+											javaScriptEnabled={true}
+											ref={(r) => (this.webref = r)}
+
+					 					/>
+			          </View>
+	        </Modal>
 
 			</View>
     );
