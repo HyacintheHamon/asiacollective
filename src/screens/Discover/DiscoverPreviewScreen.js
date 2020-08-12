@@ -91,8 +91,8 @@ class FirstRoute extends React.Component {
 		const paginatedsection5 = groupByFirstTag(this.props.venues);
 		return (<ScrollView>
 
-					{Object.keys(paginatedsection5).map((key)=>{
-						return (<View>
+					{Object.keys(paginatedsection5).map((key, i)=>{
+						return (<View key={`section-${i}`}>
 										{paginatedsection5[key].length != 0 ? (<View style={{flexDirection:'row', justifyContent:'space-between', marginRight:20, paddingVertical:8}}>
 											<Text style={{fontSize:18}}>{key}</Text>
 											<TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.props.nav.navigate('DiscoveryList', { venues: paginatedsection5[key] }) }}>

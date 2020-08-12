@@ -31,6 +31,16 @@ export default class DealPreviewScreen extends React.Component {
 		 );
  }
 
+ handleDone(){
+	 this.toggleModal();
+	 setTimeout(()=>{
+		 this.props.navigation.goBack();
+	 },600)
+	 setTimeout(()=>{
+		 this.props.navigation.dangerouslyGetParent().navigate('Account')
+	 },1200);
+ }
+
 	render() {
 		let { deal } = this.props.navigation.state.params;
 		var dealImages = deal.images.split(',').map(function(currentVal){
@@ -85,6 +95,10 @@ export default class DealPreviewScreen extends React.Component {
 		            <TouchableOpacity activeOpacity={0.8} style={{paddingHorizontal:12, paddingVertical:6}} onPress={()=>{ this.toggleModal() }}>
 									<Ionicons name="md-close" size={28} color={"#000"} />
 								</TouchableOpacity>
+								<TouchableOpacity activeOpacity={0.8} style={{paddingHorizontal:12, paddingVertical:6, position:'absolute', right:14, top:6}} onPress={()=>{ this.handleDone() }}>
+									<Text style={{fontWeight:'bold', fontSize:16}}>Done</Text>
+								</TouchableOpacity>
+
 								<WebView
 										source={{uri: deal.checkout_url }}
 					 				 	style={{marginTop: 4}}
