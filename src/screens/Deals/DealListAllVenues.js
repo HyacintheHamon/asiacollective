@@ -30,7 +30,7 @@ class DealListAllVenues extends React.Component {
 							<Ionicons name="md-close" size={32} color={"#000"} />
 						</View>
 					</TouchableOpacity>
-					<Text style={{ fontSize:16,}}>ALL VENUES</Text>
+					<Text style={{ fontSize:18,}}>Privileges</Text>
 				</View>
 
 				<View style={{marginLeft:20, marginRight:20}}>

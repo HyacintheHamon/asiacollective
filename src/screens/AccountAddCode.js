@@ -94,7 +94,7 @@ class AccountAddCodeScreen extends React.Component {
 
 					<Text style={{marginLeft:20, fontWeight:'bold', marginTop:20}}>Select City</Text>
 					<View style={{margin:20, flexDirection:'row', position:'relative'}}>
-            <Text style={{color:'gold', fontSize:18, position:'absolute', left:0, top:8}}>Select</Text>
+            <Text style={{color:'#D5B172', fontSize:18, position:'absolute', left:0, top:8}}>Select</Text>
 						<RNPickerSelect
 							style={pickerStyle}
 							placeholder={placeholder}
@@ -108,13 +108,13 @@ class AccountAddCodeScreen extends React.Component {
 					</View>
 					<Text style={{marginLeft:20, fontWeight:'bold', marginTop:20}}>Enter your Unique Code</Text>
 					<TextInput
-							style={{padding:20, fontSize:18, color:'gold'}}
+							style={{padding:20, fontSize:18, color:'#D5B172'}}
 							placeholder="Type Unique Code"
 							onChangeText={text => this.setState({ book: text.toUpperCase() })}
 							value={this.state.book}
 							autoCapitalize={'none'}
 							autoCorrect={false}
-							placeholderTextColor={"gold"}
+							placeholderTextColor={"#D5B172"}
 							underlineColorAndroid="transparent"
 						/>
 					<View>
