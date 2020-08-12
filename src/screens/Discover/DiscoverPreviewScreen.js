@@ -8,6 +8,7 @@ import { View,
 	StatusBar,TouchableOpacity,
 	FlatList,
 	ActivityIndicator,
+	TextInput,
 	Platform
 } from "react-native";
 
@@ -289,6 +290,7 @@ class DiscoverPreview extends React.Component {
 	      { key: 'first', title: 'Restaurants' },
 	      { key: 'second', title: 'Map' },
 	    ],
+			searchQuery: "",
 			typeFilter: [],
 			cuisineFilter: [],
 			isFilterApplied: false,
@@ -357,6 +359,11 @@ class DiscoverPreview extends React.Component {
 		});
 	}
 
+	onChangeSearchQuery(searchQuery){
+		this.setState({searchQuery: searchQuery });
+	}
+
+	th
 
 	handleOnApplyPressed(){
 		var {cuisineFilter,typeFilter} = this.state;
@@ -371,11 +378,29 @@ class DiscoverPreview extends React.Component {
 
   render() {
 		let selectedLocation = this.props.navigation.state.params.selectedLocation;
-		var { typeFilter, cuisineFilter } = this.state;
+		var { typeFilter, cuisineFilter, searchQuery } = this.state;
+		selectedLocation = Object.assign({},selectedLocation);
+		if(searchQuery.length != 0){
+				selectedLocation.venues = selectedLocation.venues.filter((currentVal)=>{
+					var result = false;
+					console.log(searchQuery);
+					if(searchQuery.length != 0){
+						if(currentVal.name.toLowerCase().indexOf(searchQuery) != -1){
+							console.log(currentVal.name.toLowerCase().indexOf(searchQuery));
+							result = true;
+						}
+					}
+					else {
+						result = true;
+					}
+
+					return result;
+				});
+		}
+
 		if (this.state.isFilterApplied) {
-			selectedLocation = Object.assign({},selectedLocation);
 			selectedLocation.venues = selectedLocation.venues.filter((currentVal)=>{
-				var result = false;
+				var result = true;
 
 				if(typeFilter.length != 0){ // if both filters type and cuisine
 					typeFilter.forEach((category)=>{
@@ -461,7 +486,22 @@ class DiscoverPreview extends React.Component {
 							</TouchableOpacity>
 						</View>
 
-						<View style={{marginVertical:4, marginLeft:20}}>
+						<View style={{marginVertical:1, marginLeft:20}}>
+							<View>
+								<TextInput
+									autoCapitalize={false}
+									autoCompleteType={"off"}
+									clearButtonMode={true}
+									placeholder={"Search"}
+									autoCorrect={false}
+									onKeyPress={this.handleOnEnter}
+							    style={{ height: 40, width:width-40, borderColor: '#f0f0f0', borderWidth: 1, marginBottom:14, backgroundColor:"#f0f0f0", paddingHorizontal:10, borderRadius:8, paddingLeft:40 }}
+							    onChangeText={(searchQuery) => { this.onChangeSearchQuery(searchQuery) }}
+							    value={this.state.searchQuery}
+								/>
+								<Ionicons name="ios-search-outline" size={24} color="gray" style={{position:'absolute', left: 10, top: 6}}/>
+							</View>
+
 							<Text style={{fontSize:20, marginBottom:16}}>Category</Text>
 							<ScrollView horizontal={true} contentStyle={{flexDirection:'row'}} style={{paddingBottom:34}} showsHorizontalScrollIndicator={false}>
 								<TouchableOpacity onPress={()=>{ this.addTypeFilter('restaurant') }} activeOpacity={0.8}>
