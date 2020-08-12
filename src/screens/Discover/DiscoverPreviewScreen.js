@@ -38,6 +38,25 @@ function paginate(array, page_size, page_number) {
   return array.slice((page_number - 1) * page_size, page_number * page_size);
 }
 
+function groupByFirstTag(array){
+	var result = {};
+	array.forEach(function(c){
+		var tag = c.tags.split(',')[0];
+		if(tag){
+			if(result.hasOwnProperty(tag)){
+				result[tag].push(c);
+			}
+			else {
+				console.log(tag);
+				result[tag] = [];
+				result[tag].push(c);
+			}
+		}
+
+	})
+	return result;
+}
+
 class FooterPreview extends React.PureComponent {
 		render(){
 			let data = this.props.data;
@@ -68,94 +87,35 @@ class FirstRoute extends React.Component {
 	}
 
 	renderList(){
-		const paginatedSection1 = paginate(this.props.venues, this.props.venues.length/4, 1);
-		const paginatedSection2 = paginate(this.props.venues, this.props.venues.length/4, 2);
-		const paginatedSection3 = paginate(this.props.venues, this.props.venues.length/4, 3);
-		const paginatedSection4 = paginate(this.props.venues, this.props.venues.length/4, 4);
+		const paginatedsection5 = groupByFirstTag(this.props.venues);
 		return (<ScrollView>
 
-						{paginatedSection1.length != 0 ? (<View style={{flexDirection:'row', justifyContent:'space-between', marginRight:20, paddingVertical:8}}>
-							<Text style={{fontSize:18}}>DOWNTOWN</Text>
-							<TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.props.nav.navigate('DiscoveryList', { venues: paginatedSection1 }) }}>
-								<Text style={{color:'orange', fontSize:12}}>View All</Text>
-							</TouchableOpacity>
-						</View>) : null}
-						<FlatList
-							 data={paginatedSection1}
-							 horizontal={true}
-							 showsHorizontalScrollIndicator={false}
-							 renderItem={({ item })=>{
-								 return (<LocationVenueItem
-									 title={item.title}
-									 image={item.image}
-									 tags={item.tags}
-									 thumbnailStyle={{marginRight:20}}
-									 onPress={()=>{ this.props.nav.navigate('Preview', {venue: item})}}/>);
-							 }}
-							 keyExtractor={(item, index) => `locVenue-${index.toString()}`}
-					 />
-					 {paginatedSection2.length != 0 ? (<View style={{flexDirection:'row', justifyContent:'space-between', marginRight:20, paddingVertical:8}}>
-						 <Text style={{fontSize:18}}></Text>
-						 <TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.props.nav.navigate('DiscoveryList', { venues: paginatedSection2 }) }}>
-							 <Text style={{color:'orange', fontSize:12}}>View All</Text>
-						 </TouchableOpacity>
-					 </View>): null}
-					 <FlatList
-							data={paginatedSection2 }
-							horizontal={true}
-							showsHorizontalScrollIndicator={false}
-							renderItem={({ item })=>{
-								return (<LocationVenueItem
-									title={item.title}
-									image={item.image}
-									tags={item.tags}
-									thumbnailStyle={{marginRight:20}}
-									onPress={()=>{ this.props.nav.navigate('Preview', {venue: item})}}/>);
-							}}
-							keyExtractor={(item, index) => `locVenue2-${index.toString()}`}
-					/>
+					{Object.keys(paginatedsection5).map((key)=>{
+						return (<View>
+										{paginatedsection5[key].length != 0 ? (<View style={{flexDirection:'row', justifyContent:'space-between', marginRight:20, paddingVertical:8}}>
+											<Text style={{fontSize:18}}>{key}</Text>
+											<TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.props.nav.navigate('DiscoveryList', { venues: paginatedsection5[key] }) }}>
+												<Text style={{color:'orange', fontSize:12}}>View All</Text>
+											</TouchableOpacity>
+										</View>) : null}
 
-					{paginatedSection3.length != 0 ? (<View style={{flexDirection:'row', justifyContent:'space-between', marginRight:20, paddingVertical:8}}>
-						<Text style={{fontSize:18}}></Text>
-						<TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.props.nav.navigate('DiscoveryList', { venues: paginatedSection3 }) }}>
-							<Text style={{color:'orange', fontSize:12}}>View All</Text>
-						</TouchableOpacity>
-					</View>): null}
-					<FlatList
-						 data={paginatedSection3 }
-						 horizontal={true}
-						 showsHorizontalScrollIndicator={false}
-						 renderItem={({ item })=>{
-							 return (<LocationVenueItem
-								 title={item.title}
-								 image={item.image}
-								 tags={item.tags}
-								 thumbnailStyle={{marginRight:20}}
-								 onPress={()=>{ this.props.nav.navigate('Preview', {venue: item})}}/>);
-						 }}
-						 keyExtractor={(item, index) => `locVenue3-${index.toString()}`}
-				 />
+										{paginatedsection5[key].length != 0 ? (<FlatList
+											 data={paginatedsection5[key]}
+											 horizontal={true}
+											 showsHorizontalScrollIndicator={false}
+											 renderItem={({ item })=>{
+												 return (<LocationVenueItem
+													 title={item.title}
+													 image={item.image}
+													 tags={item.tags}
+													 thumbnailStyle={{marginRight:20}}
+													 onPress={()=>{ this.props.nav.navigate('Preview', {venue: item})}}/>);
+											 }}
+											 keyExtractor={(item, index) => `locVenue-${index.toString()}`}
+									 />): null}
+					 </View>);
+					})}
 
-				 {paginatedSection4.length != 0 ? (<View style={{flexDirection:'row', justifyContent:'space-between', marginRight:20, paddingVertical:8}}>
-					 <Text style={{fontSize:18}}></Text>
-					 <TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.props.nav.navigate('DiscoveryList', { venues: paginatedSection4 }) }}>
-						 <Text style={{color:'orange', fontSize:12}}>View All</Text>
-					 </TouchableOpacity>
-				 </View>): null}
-				 <FlatList
-						data={paginatedSection4 }
-						horizontal={true}
-						showsHorizontalScrollIndicator={false}
-						renderItem={({ item })=>{
-							return (<LocationVenueItem
-								title={item.title}
-								image={item.image}
-								tags={item.tags}
-								thumbnailStyle={{marginRight:20}}
-								onPress={()=>{ this.props.nav.navigate('Preview', {venue: item})}}/>);
-						}}
-						keyExtractor={(item, index) => `locVenue4-${index.toString()}`}
-				/>
 
 		</ScrollView>);
 	}
