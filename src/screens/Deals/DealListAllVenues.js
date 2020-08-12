@@ -30,7 +30,7 @@ class DealListAllVenues extends React.Component {
 							<Ionicons name="md-close" size={32} color={"#000"} />
 						</View>
 					</TouchableOpacity>
-					<Text style={{ fontSize:18,}}>Privileges</Text>
+					<Text style={{ fontSize:18,}}>All Venues</Text>
 				</View>
 
 				<View style={{marginLeft:20, marginRight:20}}>
@@ -45,6 +45,7 @@ class DealListAllVenues extends React.Component {
 								 image={item.image}
 								 tags={item.category}
 								 width={thumbnailWidth}
+								 isPrivilege={true}
 								 onPress={()=>{ this.props.navigation.navigate('Preview', {venue: item})}}/>);
 						 }}
 						 keyExtractor={(item, index) => `locVenue-${index.toString()}`}
