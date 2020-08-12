@@ -377,9 +377,28 @@ class DiscoverPreview extends React.Component {
 			selectedLocation.venues = selectedLocation.venues.filter((currentVal)=>{
 				var result = false;
 
-				typeFilter.forEach((category)=>{
-					if(currentVal.category.toLowerCase().indexOf(category) != -1){
+				if(typeFilter.length != 0){ // if both filters type and cuisine
+					typeFilter.forEach((category)=>{
+						if(currentVal.category.toLowerCase().indexOf(category) != -1){
 
+							if(cuisineFilter.length!= 0){
+								cuisineFilter.forEach((cuisine)=>{
+									if(currentVal.cuisine.toLowerCase().indexOf(cuisine) != -1){
+										result = true;
+									}
+								});
+							}
+							else {
+								result = true;
+							}
+
+						}
+						else {
+							result = false;
+						}
+					});
+				} else { // if cuisine filter only
+					if(cuisineFilter.length!= 0){
 						if(cuisineFilter.length!= 0){
 							cuisineFilter.forEach((cuisine)=>{
 								if(currentVal.cuisine.toLowerCase().indexOf(cuisine) != -1){
@@ -387,15 +406,9 @@ class DiscoverPreview extends React.Component {
 								}
 							});
 						}
-						else {
-							result = true;
-						}
+					}
+				}
 
-					}
-					else {
-						result = false;
-					}
-				});
 
 
 				if(typeFilter.length == 0 && cuisineFilter.length == 0 ){
