@@ -96,7 +96,7 @@ class FirstRoute extends React.Component {
 										{paginatedsection5[key].length != 0 ? (<View style={{flexDirection:'row', justifyContent:'space-between', marginRight:20, paddingVertical:8}}>
 											<Text style={{fontSize:18}}>{key}</Text>
 											<TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.props.nav.navigate('DiscoveryList', { venues: paginatedsection5[key] }) }}>
-												<Text style={{color:'orange', fontSize:12}}>View All</Text>
+												<Text style={{color:'#D5B172', fontSize:12}}>View All</Text>
 											</TouchableOpacity>
 										</View>) : null}
 
@@ -482,7 +482,7 @@ class DiscoverPreview extends React.Component {
 							<Text style={{ fontSize:16, alignSelf:'center'}}>FILTER</Text>
 
 							<TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.setState({typeFilter: [],cuisineFilter:[]}); this.toggleModal() }} style={{position:'absolute', right:0, top:6}}>
-								<Text style={{ fontSize:14, paddingVertical:20, paddingHorizontal:18, color:'orange'}}>CLEAR</Text>
+								<Text style={{ fontSize:14, paddingVertical:20, paddingHorizontal:18, color:'#D5B172'}}>CLEAR</Text>
 							</TouchableOpacity>
 						</View>
 
