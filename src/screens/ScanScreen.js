@@ -72,9 +72,9 @@ export default class Scan extends React.Component {
                 cornerStyle={ styles.cornerStyle }
                 rectStyle={ styles.rectStyle }
                 //scanBarImage={ Images.ic_scan_bar }
-                hintText={ 'Scan the QR code to authenticate the item' }
+                hintText={ 'Scan the QR code to redeem your privilege' }
                 hintTextStyle={ styles.hintTextStyle }
-                maskColor={ '#000' }
+                maskColor={ 'rgba(0, 0, 0, 0.7)' }
                 torchOn={ torchOn }
               />
 					 

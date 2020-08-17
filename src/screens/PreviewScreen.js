@@ -534,10 +534,11 @@ class PreviewScreen extends React.Component {
 			            <TouchableOpacity activeOpacity={0.8} style={{paddingHorizontal:12, paddingVertical:6}} onPress={()=>{ this.setState({isBuyPrivilegeModalVisible:false}) }}>
 										<Ionicons name="md-close" size={28} color={"#000"} />
 									</TouchableOpacity>
-									<View style={{backgroundColor:'#fff', height:90, alignItems:'center', justifyContent:'center'}}>
-										{!this.state.isSignedIn? (<View style={{flexDirection:'row'}}>
-											<Text style={{textAlign:'center', paddingHorizontal:10, paddingVertical:2}}>Not logged in yet?</Text>
-											<TouchableOpacity onPress={()=>{
+									<View style={{backgroundColor:'#fff', height:170, alignItems:'center', justifyContent:'center'}}>
+										{!this.state.isSignedIn? (<View>
+											<Text style={{textAlign:'center', marginBottom: 5, marginLeft: 10, fontSize:11}}>Not logged in yet?</Text>
+
+												<TouchableOpacity onPress={()=>{
 												this.setState({isBuyPrivilegeModalVisible: false}, ()=>{
 													this.props.navigation.goBack();
 													setTimeout(()=>{
@@ -545,9 +546,15 @@ class PreviewScreen extends React.Component {
 													},600);
 												});
 											}}>
-												<Text style={{paddingHorizontal:6, paddingVertical:2, textAlign:'center'}}>Sign In</Text>
+												<View style={{ flexDirection:"row", height:40, backgroundColor: '#D8B06C', width:(width-48), alignItems:'center', justifyContent:'center'}}>
+												<Ionicons name="ios-mail" size={22} color={"#fff"} />
+												<Text style={{color:"#fff", marginLeft:10}}>Sign In with Email</Text>
+												</View>
 												</TouchableOpacity>
+
 											</View>): null }
+
+											<Text style={{paddingHorizontal:6, marginTop:5, marginBottom:5, textAlign:'center'}}>Or</Text>
 
 											<TouchableOpacity onPress={()=>{
 												if(this.state.deal_checkout_url && this.state.deal_checkout_url.length){
@@ -559,8 +566,11 @@ class PreviewScreen extends React.Component {
 													},1000);
 												}
 											}}>
-												<Text style={{paddingHorizontal:6, paddingVertical:14, textAlign:'center'}}>Buy</Text>
+												<View style={{ height:40, backgroundColor: 'gray', width:(width-48), alignItems:'center', justifyContent:'center'}}>
+													<Text style={{color:'#fff'}}>Buy Privilege</Text>
+												</View>
 												</TouchableOpacity>
+											<Text style={{color:"000", marginTop:15, marginBottom:15, fontStyle:'italic'}}>Checkout our list of privileges below:</Text>
 									</View>
 
 									<WebView

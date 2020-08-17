@@ -42,7 +42,7 @@ export class QRScannerRectView extends Component {
     isShowScanBar: true,
     isShowCorner: true,
     scanBarAnimateTime: 3000,
-    hintText: 'Scan the QR code to authenticate the item',
+    hintText: 'Scan the QR code to redeem your privilege',
   };
   
   state = {
