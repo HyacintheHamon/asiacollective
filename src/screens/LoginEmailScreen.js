@@ -8,6 +8,9 @@ import {
   Alert,
   ActivityIndicator
 } from "react-native";
+import {
+  ErrorBar
+} from '../../components';
 import Button from "react-native-button";
 import { AppStyles } from "../AppStyles";
 import AsyncStorage from '@react-native-community/async-storage';
@@ -27,8 +30,8 @@ class LoginEmailScreen extends React.Component {
 			errors: []
     };
   }
- 
-	
+
+
 	navigateToHome(){
 		// this.onPressLogin()
 		const resetHomeAction = StackActions.reset({
@@ -37,8 +40,8 @@ class LoginEmailScreen extends React.Component {
 		});
 		this.props.navigation.dispatch(resetHomeAction);
 	}
-	
-	
+
+
 	handleSignIn(){
 		var errors = [];
 		const {email,password} = this.state;
@@ -47,11 +50,11 @@ class LoginEmailScreen extends React.Component {
       this.setState({errors:errors});
 			return;
 		}
-		
+
 		const UserStore = this.props.userStore;
 		UserStore.login(email,password, this.handleSignInResponse.bind(this));
 	}
-	
+
 	handleSignInResponse(isSignedIn){
 			var errors = [];
 			if(!isSignedIn){
@@ -60,11 +63,11 @@ class LoginEmailScreen extends React.Component {
 				this.handleUserNotFound();
 				return;
 			}
-		
+
 			this.navigateToHome();
 	}
-		
-		
+
+
 	handleUserNotFound(){
 		const UserStore = this.props.userStore;
 		UserStore.logoutUser();
@@ -73,7 +76,7 @@ class LoginEmailScreen extends React.Component {
   render() {
     return (
 			<View style={{ flex: 1, backgroundColor:'#FFFFFF' }}>
-				
+
 				<View style={{position:'relative', alignItems:'center', marginTop:20, paddingVertical:24, }}>
 					<TouchableOpacity onPress={()=>{ this.props.navigation.goBack() }} style={{position:'absolute', left:0}}>
 						<View style={{paddingVertical:18, paddingHorizontal:18}}>
@@ -82,15 +85,15 @@ class LoginEmailScreen extends React.Component {
 					</TouchableOpacity>
 					<Text style={{ fontSize:16}}>SIGN IN</Text>
 				</View>
-				
-				
+
+
         <View style={{alignItems:'center'}}>
 					<View style={styles.InputContainer}>
 						<Text style={{ fontSize:12}}>Email</Text>
 						<TextInput
 							style={styles.body}
 							placeholder="E-mail or phone number"
-							onChangeText={text => this.setState({ email: text })}
+							onChangeText={text => this.setState({ email: text.trim() })}
 							value={this.state.email}
 							autoCapitalize={'none'}
 							autoCorrect={false}
@@ -106,12 +109,14 @@ class LoginEmailScreen extends React.Component {
 							placeholder="Password"
 							autoCapitalize={'none'}
         			autoCorrect={false}
-							onChangeText={text => this.setState({ password: text })}
+							onChangeText={text => this.setState({ password: text.trim() })}
 							value={this.state.password}
 							placeholderTextColor={AppStyles.color.grey}
 							underlineColorAndroid="transparent"
 						/>
 					</View>
+
+          <ErrorBar errors={this.state.errors}/>
 				</View>
         <Button
           containerStyle={styles.loginContainer}
@@ -120,7 +125,7 @@ class LoginEmailScreen extends React.Component {
         >
           Log in
         </Button>
-     
+
       </View>
     );
   }
