@@ -346,7 +346,7 @@ class PreviewScreen extends React.Component {
 			<Text style={{marginVertical:6, fontSize:16}}>{offer.offer_title}</Text>
 			<Text style={{marginBottom:10, color:'gray', fontSize:12}}>{offer.offer_condition ? offer.offer_condition: ""}</Text>
 			<Text style={{marginBottom:10, color:'gray', fontSize:12}}>{offer.offer_description}</Text>
-			<View style={{flexDirection:'row', position:'absolute', bottom: -2, left:-2, right:-2}}>
+			<View style={{flexDirection:'row', position:'absolute', bottom: -2, left:-2, right:-2, backgroundColor:'#b39364'}}>
 				{this.state.isDisableAll || this.state.availableBookCodes.length == 0 ? (<TouchableOpacity
 						onPress={()=>{
 							if(this.state.availableBookCodes.length == 0){
