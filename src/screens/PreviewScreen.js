@@ -389,10 +389,12 @@ class PreviewScreen extends React.Component {
 	}
 
 	renderSuccessModal(){
+		const dateNow = new Date().toDateString();
 		return (<View style={{ height:300, borderRadius:10, padding:20, backgroundColor:'#fff' }}>
-		<EvilIcons name={"check"} size={160} color={"green"} style={{alignSelf:'center'}} />
-			<Text style={{fontSize:24, marginTop:20, textAlign:'center'}}>Success</Text>
-			<Text style={{fontSize:16, marginTop:4, textAlign:'center'}}>Your privilege can now be redeemed</Text>
+		<EvilIcons name={"check"} size={150} color={"green"} style={{alignSelf:'center'}} />
+			<Text style={{fontSize:24, marginTop:20, textAlign:'center', color:'green', fontWeight:'bold'}}>Success</Text>
+			<Text style={{fontSize:18, marginTop:4, textAlign:'center'}}>Your privilege can now be redeemed</Text>
+			<Text style={{fontSize:18, marginTop:4, textAlign:'center'}}>{dateNow}</Text>
 			<TouchableOpacity onPress={()=>{ this.handleCloseSuccessAndRedeeemModal() }} style={{position:'absolute', bottom:0, left:0, right:0,}}>
 				<View style={{ alignItems:'center', justifyContent:'center', backgroundColor:'transparent', padding:20}}>
 					<Text style={{fontSize:16}}>OK</Text>
@@ -403,9 +405,9 @@ class PreviewScreen extends React.Component {
 
 	renderErrorModal(){
 		return (<View style={{ height:300, borderRadius:10, padding:20, backgroundColor:'#fff' }}>
-		<EvilIcons name={"close-o"} size={160} color={"red"} style={{alignSelf:'center'}} />
-			<Text style={{fontSize:24, marginTop:20, textAlign:'center'}}>Error</Text>
-			<Text style={{fontSize:16, marginTop:4, textAlign:'center'}}>Privilege redemption failed</Text>
+		<EvilIcons name={"close-o"} size={150} color={"red"} style={{alignSelf:'center'}} />
+			<Text style={{fontSize:24, marginTop:20, textAlign:'center', color:'red', fontWeight:'bold'}}>Error</Text>
+			<Text style={{fontSize:18, marginTop:4, textAlign:'center'}}>Privilege redemption failed</Text>
 			<TouchableOpacity onPress={()=>{ this.handleCloseSuccessAndRedeeemModal() }} style={{position:'absolute', bottom:0, left:0, right:0,}}>
 				<View style={{ alignItems:'center', justifyContent:'center', backgroundColor:'transparent', padding:20}}>
 					<Text style={{fontSize:16}}>OK</Text>
