@@ -480,7 +480,7 @@ class DiscoverPreview extends React.Component {
            <View style={{ backgroundColor:'#fff', height:height, width:width}}>
 
 						<View style={{position:'relative',  marginTop:20, paddingVertical:24, }}>
-							<TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.toggleModal() }} style={{position:'absolute', left:0}}>
+							<TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.handleOnApplyPressed() }} style={{position:'absolute', left:0}}>
 								<View style={{paddingVertical:18, paddingHorizontal:18}}>
 									<Ionicons name="md-close" size={30} color={"#000"} />
 								</View>
@@ -595,11 +595,7 @@ class DiscoverPreview extends React.Component {
 						</View>
 
 
-						<TouchableOpacity activeOpacity={0.8} style={{position:'absolute', bottom:20, left:0, right:0}} onPress={()=>{ this.handleOnApplyPressed()  }}>
-							<View style={{backgroundColor:'#E7B876', padding:14, alignItems:'center', justifyContent:'center'}}>
-								<Text style={{color:'#fff'}}>APPLY</Text>
-							</View>
-						</TouchableOpacity>
+						
 
            </View>
          </Modal>
