@@ -363,7 +363,7 @@ class DiscoverPreview extends React.Component {
 		this.setState({searchQuery: searchQuery });
 	}
 
-	th
+
 
 	handleOnApplyPressed(){
 		var {cuisineFilter,typeFilter} = this.state;
@@ -411,6 +411,9 @@ class DiscoverPreview extends React.Component {
 									if(currentVal.cuisine.toLowerCase().indexOf(cuisine) != -1){
 										result = true;
 									}
+									else {
+										result = false;
+									}
 								});
 							}
 							else {
@@ -428,6 +431,9 @@ class DiscoverPreview extends React.Component {
 							cuisineFilter.forEach((cuisine)=>{
 								if(currentVal.cuisine.toLowerCase().indexOf(cuisine) != -1){
 									result = true;
+								}
+								else {
+									result = false;
 								}
 							});
 						}
