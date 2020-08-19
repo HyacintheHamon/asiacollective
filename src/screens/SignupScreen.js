@@ -8,7 +8,7 @@ import { StackActions, NavigationActions } from 'react-navigation';
 import {
 	ErrorBar
 } from '../../components';
-
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { inject, observer } from 'mobx-react/native';
 @inject('userStore')
 @observer
@@ -26,7 +26,7 @@ class SignupScreen extends React.Component {
 			lastName:"",
 		}
   }
-	
+
 	handleSignup(){
 		const { email,password, firstName,lastName, phone } = this.state;
 		var errors = [];
@@ -40,7 +40,7 @@ class SignupScreen extends React.Component {
       this.setState({errors:errors});
 			return;
 		}
-		
+
 		var user = {
 			email,
 			password,
@@ -48,7 +48,7 @@ class SignupScreen extends React.Component {
 			lastName,
 			phone
 		};
-		
+
 		const UserStore = this.props.userStore;
 		UserStore.signUp(user,(isSuccess, errorMessage)=>{
 			if(!isSuccess){
@@ -61,12 +61,12 @@ class SignupScreen extends React.Component {
 	      this.setState({errors:errors});
 				return;
 			}
-			
+
 			//NavigationService.forceReplace('HomeScreen');
 			this.navigateToHome();
 		});
-		
-		
+
+
 	}
 
   componentDidMount() {
@@ -120,7 +120,7 @@ class SignupScreen extends React.Component {
     //     alert(message);
     //   });
   };
-	
+
 	navigateToHome(){
 		// this.onPressLogin()
 		const resetHomeAction = StackActions.reset({
@@ -133,7 +133,7 @@ class SignupScreen extends React.Component {
   render() {
     return (
 			<View style={{ flex: 1, backgroundColor:'#FFFFFF' }}>
-				
+
 				<View style={{position:'relative', alignItems:'center', marginTop:20, paddingVertical:24, }}>
 					<TouchableOpacity onPress={()=>{ this.props.navigation.goBack() }} style={{position:'absolute', left:0}}>
 						<View style={{paddingVertical:18, paddingHorizontal:18}}>
@@ -143,70 +143,72 @@ class SignupScreen extends React.Component {
 					<Text style={{ fontSize:16}}>SIGN UP</Text>
 					<ErrorBar errors={this.state.errors}/>
 				</View>
-			 
-        <View style={{alignItems:'center'}}>
-						<View style={styles.InputContainer}>
-						<Text style={{ fontSize:12}}>First Name</Text>
-							<TextInput
-								style={styles.body}
-								placeholder="First Name"
-								onChangeText={text => this.setState({ firstName: text })}
-								value={this.state.firstName}
-								autoCorrect={false}
-								placeholderTextColor={AppStyles.color.grey}
-								underlineColorAndroid="transparent"
-							/>
-						</View>
-						<View style={styles.InputContainer}>
-						<Text style={{ fontSize:12}}>Last Name</Text>
-							<TextInput
-								style={styles.body}
-								placeholder="Last Name"
-								onChangeText={text => this.setState({ lastName: text })}
-								value={this.state.lastName}
-								autoCorrect={false}
-								placeholderTextColor={AppStyles.color.grey}
-								underlineColorAndroid="transparent"
-							/>
-						</View>
-						<View style={styles.InputContainer}>
-							<Text style={{ fontSize:12}}>Phone Number</Text>
-							<TextInput
-								style={styles.body}
-								placeholder="Phone Number"
-								onChangeText={text => this.setState({ phone: text })}
-								value={this.state.phone}
-								autoCorrect={false}
-								placeholderTextColor={AppStyles.color.grey}
-								underlineColorAndroid="transparent"
-							/>
-						</View>
-						<View style={styles.InputContainer}>
-							<Text style={{ fontSize:12}}>E-mail Address</Text>
-							<TextInput
-								style={styles.body}
-								placeholder="E-mail Address"
-								onChangeText={text => this.setState({ email: text })}
-								value={this.state.email}
-								autoCapitalize={'none'}
-								autoCorrect={false}
-								placeholderTextColor={AppStyles.color.grey}
-								underlineColorAndroid="transparent"
-							/>
-						</View>
-						<View style={styles.InputContainer}>
-							<Text style={{ fontSize:12}}>Password</Text>
-							<TextInput
-								style={styles.body}
-								placeholder="Password"
-								secureTextEntry={true}
-								onChangeText={text => this.setState({ password: text })}
-								value={this.state.password}
-								placeholderTextColor={AppStyles.color.grey}
-								underlineColorAndroid="transparent"
-							/>
-						</View>
-				</View>
+
+				<KeyboardAwareScrollView>
+	        <View style={{alignItems:'center'}}>
+							<View style={styles.InputContainer}>
+							<Text style={{ fontSize:12}}>First Name</Text>
+								<TextInput
+									style={styles.body}
+									placeholder="First Name"
+									onChangeText={text => this.setState({ firstName: text })}
+									value={this.state.firstName}
+									autoCorrect={false}
+									placeholderTextColor={AppStyles.color.grey}
+									underlineColorAndroid="transparent"
+								/>
+							</View>
+							<View style={styles.InputContainer}>
+							<Text style={{ fontSize:12}}>Last Name</Text>
+								<TextInput
+									style={styles.body}
+									placeholder="Last Name"
+									onChangeText={text => this.setState({ lastName: text })}
+									value={this.state.lastName}
+									autoCorrect={false}
+									placeholderTextColor={AppStyles.color.grey}
+									underlineColorAndroid="transparent"
+								/>
+							</View>
+							<View style={styles.InputContainer}>
+								<Text style={{ fontSize:12}}>Phone Number</Text>
+								<TextInput
+									style={styles.body}
+									placeholder="Phone Number"
+									onChangeText={text => this.setState({ phone: text })}
+									value={this.state.phone}
+									autoCorrect={false}
+									placeholderTextColor={AppStyles.color.grey}
+									underlineColorAndroid="transparent"
+								/>
+							</View>
+							<View style={styles.InputContainer}>
+								<Text style={{ fontSize:12}}>E-mail Address</Text>
+								<TextInput
+									style={styles.body}
+									placeholder="E-mail Address"
+									onChangeText={text => this.setState({ email: text })}
+									value={this.state.email}
+									autoCapitalize={'none'}
+									autoCorrect={false}
+									placeholderTextColor={AppStyles.color.grey}
+									underlineColorAndroid="transparent"
+								/>
+							</View>
+							<View style={styles.InputContainer}>
+								<Text style={{ fontSize:12}}>Password</Text>
+								<TextInput
+									style={styles.body}
+									placeholder="Password"
+									secureTextEntry={true}
+									onChangeText={text => this.setState({ password: text })}
+									value={this.state.password}
+									placeholderTextColor={AppStyles.color.grey}
+									underlineColorAndroid="transparent"
+								/>
+							</View>
+					</View>
+				</KeyboardAwareScrollView>
         <Button
           containerStyle={[styles.facebookContainer, { marginTop: 50 }]}
           style={styles.facebookText}

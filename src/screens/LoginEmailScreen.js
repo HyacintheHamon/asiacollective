@@ -17,6 +17,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { StackActions, NavigationActions } from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { inject, observer } from 'mobx-react/native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 @inject('userStore')
 @observer
@@ -86,38 +87,41 @@ class LoginEmailScreen extends React.Component {
 					<Text style={{ fontSize:16}}>SIGN IN</Text>
 				</View>
 
+        <KeyboardAwareScrollView>
+          <View style={{alignItems:'center'}}>
 
-        <View style={{alignItems:'center'}}>
-					<View style={styles.InputContainer}>
-						<Text style={{ fontSize:12}}>Email</Text>
-						<TextInput
-							style={styles.body}
-							placeholder="E-mail or phone number"
-							onChangeText={text => this.setState({ email: text.trim() })}
-							value={this.state.email}
-							autoCapitalize={'none'}
-							autoCorrect={false}
-							placeholderTextColor={AppStyles.color.grey}
-							underlineColorAndroid="transparent"
-						/>
-					</View>
-					<View style={styles.InputContainer}>
-						<Text style={{ fontSize:12}}>Password</Text>
-						<TextInput
-							style={styles.body}
-							secureTextEntry={true}
-							placeholder="Password"
-							autoCapitalize={'none'}
-        			autoCorrect={false}
-							onChangeText={text => this.setState({ password: text.trim() })}
-							value={this.state.password}
-							placeholderTextColor={AppStyles.color.grey}
-							underlineColorAndroid="transparent"
-						/>
-					</View>
+  					<View style={styles.InputContainer}>
+  						<Text style={{ fontSize:12}}>Email</Text>
+  						<TextInput
+  							style={styles.body}
+  							placeholder="E-mail or phone number"
+  							onChangeText={text => this.setState({ email: text.trim() })}
+  							value={this.state.email}
+  							autoCapitalize={'none'}
+  							autoCorrect={false}
+  							placeholderTextColor={AppStyles.color.grey}
+  							underlineColorAndroid="transparent"
+  						/>
+  					</View>
+  					<View style={styles.InputContainer}>
+  						<Text style={{ fontSize:12}}>Password</Text>
+  						<TextInput
+  							style={styles.body}
+  							secureTextEntry={true}
+  							placeholder="Password"
+  							autoCapitalize={'none'}
+          			autoCorrect={false}
+  							onChangeText={text => this.setState({ password: text.trim() })}
+  							value={this.state.password}
+  							placeholderTextColor={AppStyles.color.grey}
+  							underlineColorAndroid="transparent"
+  						/>
+  					</View>
 
-          <ErrorBar errors={this.state.errors}/>
-				</View>
+            <ErrorBar errors={this.state.errors}/>
+  				</View>
+        </KeyboardAwareScrollView>
+
         <Button
           containerStyle={styles.loginContainer}
           style={styles.loginText}
