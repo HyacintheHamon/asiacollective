@@ -370,6 +370,18 @@ export default class userStore {
   	});
 	}
 
+  async getHistory() {
+		var books = [];
+		if(this.user.books.length){
+			await asyncForEach( this.user.books, async function(book){
+				let result = await axios.get(`${SERVER_URL}/api/book/history?location=${book.split("_")[0]}&book_number=${book.split("_")[1]}&edition=1`);
+				books = books.concat(result.data.books);
+			});
+		}
+
+		return books;
+	}
+
 	checkVenueQr(payload ,callback){
 		axios.post(`${SERVER_URL}/api/offer/validate-offer`, payload).then(function (response) {
 			console.log('validate offer', response);
@@ -387,7 +399,6 @@ export default class userStore {
 		var books = [];
 console.log('books here now', this.user);
 		if(this.user.books.length){
-			let book = this.user.books[0];
 			await asyncForEach( this.user.books, async function(book){
 				let result = await axios.get(`${SERVER_URL}/api/book?location=${book.split("_")[0]}&book_number=${book.split("_")[1]}&edition=1`);
 				books = books.concat(result.data.books);

@@ -84,7 +84,7 @@ class AccountScreen extends React.Component {
 							</View>
 						</TouchableOpacity>
 						{this.state.toggleBooks ? null : books.map((book,i)=>{
-							return (<View style={{marginBottom:14}}><Text style={{fontSize:14}} key={"book-"+i}>{capitalizeFirstLetter(book.split("_")[0])}</Text><Text>{book.split("_")[1].toUpperCase()}</Text></View>);
+							return (<View key={`book-${i}`} style={{marginBottom:14}}><Text style={{fontSize:14}} key={"book-"+i}>{capitalizeFirstLetter(book.split("_")[0])}</Text><Text>{book.split("_")[1].toUpperCase()}</Text></View>);
 						})}
 
 

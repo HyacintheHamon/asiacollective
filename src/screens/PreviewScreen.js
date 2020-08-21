@@ -125,7 +125,7 @@ class PreviewScreen extends React.Component {
 			deal_checkout_url: null,
 			deal_description_url: null,
 			isBuyPrivilegeModalVisible: false,
-
+			redeemHistory: [],
 			redeemSuccessModal: false,
 			redeemErrorModal: false
 		}
@@ -160,7 +160,8 @@ class PreviewScreen extends React.Component {
 
 			var books = await this.props.userStore.getBooks();
 			var availableBookCodes = [];
-			console.log(books,'books books', offers, venue);
+			var redeemHistory = [];
+
 			if(books && books.length){
 				books.forEach((book)=>{
 					if(venue.user_id == book.fk_user_id){
@@ -168,9 +169,26 @@ class PreviewScreen extends React.Component {
 							availableBookCodes.push( book.book_number );
 							this.setState({isDisableAll: false });
 						}
+						else {
+							redeemHistory.push( book );
+						}
 					}
 				});
+
+				if(redeemHistory.length){
+					redeemHistory = redeemHistory.sort(function(a,b){
+					 	return b.redeem_on.localeCompare(a.redeem_on);
+					});
+					this.setState({ redeemHistory: redeemHistory });
+				}
 			}
+
+			console.log('---------------');
+			console.log('AVAILABLE_BOOKS', availableBookCodes);
+			console.log('OFFERS', offers);
+			console.log('VENUE', venue);
+			console.log('REDEEM_HISTORY', redeemHistory);
+			console.log('---------------');
 
 			this.setState({ availableBookCodes: availableBookCodes });
 			if(availableBookCodes.length == 1){
@@ -328,7 +346,7 @@ class PreviewScreen extends React.Component {
 	};
 
 	renderOffer(offer, i){
-		let { displayBookCode } = this.state;
+		let { displayBookCode, redeemHistory } = this.state;
 		return (<View key={`offer-${i}`} style={{marginVertical:10, marginBottom: 10, borderStyle: 'dashed', borderRadius: 1, borderColor:'#E7B876', borderWidth:2, padding:12, paddingBottom:60, position:'relative'}}>
 			<View style={{
 				width: 0,
@@ -365,7 +383,10 @@ class PreviewScreen extends React.Component {
 						}}
 						activeOpacity={0.8} style={{}}>
 					<View style={{ height:40, backgroundColor: 'gray', width:(width-48), alignItems:'center', justifyContent:'center'}}>
-						<Text style={{color:'#fff'}}>Buy Privilege</Text>
+						{redeemHistory.length != 0 ?
+							(<Text style={{color:'#fff'}}>Privilege Redeemed {new Date(redeemHistory[0].redeem_on).toLocaleDateString() } SHOP AGAIN?</Text>)
+							:(<Text style={{color:'#fff'}}>Buy Privilege</Text>)
+						}
 					</View>
 				</TouchableOpacity>): (<TouchableOpacity
 				onPress={()=>{ this.handleOnClick() }}
@@ -538,7 +559,7 @@ class PreviewScreen extends React.Component {
 									</TouchableOpacity>
 									<View style={{backgroundColor:'#fff', height:170, alignItems:'center', justifyContent:'center'}}>
 										{!this.state.isSignedIn? (<View>
-											<Text style={{textAlign:'center', marginBottom: 5, marginLeft: 10, fontSize:11}}>Not logged in yet?</Text>
+											<Text style={{textAlign:'center', marginBottom: 5, marginLeft: 10, fontSize:16}}>Not logged in yet?</Text>
 
 												<TouchableOpacity onPress={()=>{
 												this.setState({isBuyPrivilegeModalVisible: false}, ()=>{
@@ -556,7 +577,7 @@ class PreviewScreen extends React.Component {
 
 											</View>): null }
 
-											<Text style={{paddingHorizontal:6, marginTop:5, marginBottom:5, textAlign:'center'}}>Or</Text>
+											{!this.state.isSignedIn? (<Text style={{paddingHorizontal:6, marginTop:5, marginBottom:5, textAlign:'center'}}>Or</Text>) : null }
 
 											<TouchableOpacity onPress={()=>{
 												if(this.state.deal_checkout_url && this.state.deal_checkout_url.length){
