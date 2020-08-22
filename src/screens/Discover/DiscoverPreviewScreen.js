@@ -215,7 +215,7 @@ class SecondRoute extends React.Component {
 		else {
 			response = (<MapView
 					style={StyleSheet.absoluteFillObject}
-				 initialRegion={{
+				     initialRegion={{
 					 latitude: selectedLocation.coordinates.latitude,
 					 longitude: selectedLocation.coordinates.longitude,
 					 latitudeDelta: 0.0922,
