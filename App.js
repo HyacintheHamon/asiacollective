@@ -21,6 +21,8 @@ import DealPreviewScreen from './src/screens/Deals/DealPreviewScreen';
 import DealScreen from './src/screens/Deals/DealScreen';
 import DealListAllVenuesScreen from './src/screens/Deals/DealListAllVenues';
 import WelcomeScreen from './src/screens/WelcomeScreen';
+import Terms from './src/screens/Terms';
+import FAQ from './src/screens/FAQ';
 import { NavigationActions } from 'react-navigation';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
@@ -75,6 +77,14 @@ const AccountNavigation = createStackNavigator({
 	},
 	AccountAddCode: {
 		screen: AccountAddCodeScreen,
+		navigationOptions: { header: null }
+	},
+	Terms: {
+		screen: Terms,
+		navigationOptions: { header: null }
+	},
+	FAQ: {
+		screen: FAQ,
 		navigationOptions: { header: null }
 	},
 	initialRouteName: 'Login',

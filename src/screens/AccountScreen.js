@@ -106,11 +106,11 @@ class AccountScreen extends React.Component {
 						</TouchableOpacity></View>):null}
 
 						<View style={{height:1, backgroundColor:'#B5B5B5'}}></View>
-						<TouchableOpacity onPress={()=>{ this.props.navigation.navigate('AccountTerm') }}>
+						<TouchableOpacity onPress={()=>{ this.props.navigation.navigate('Terms') }}>
 							<Text style={{paddingVertical:16, fontSize:17}}>Terms & Conditions</Text>
 						</TouchableOpacity>
 						<View style={{height:1, backgroundColor:'#B5B5B5'}}></View>
-						<TouchableOpacity onPress={()=>{ this.props.navigation.navigate('AccountHelp') }}>
+						<TouchableOpacity onPress={()=>{ this.props.navigation.navigate('FAQ') }}>
 							<Text style={{paddingVertical:16, fontSize:17}}>Help</Text>
 						</TouchableOpacity>
 						<View style={{height:1, backgroundColor:'#B5B5B5'}}></View>
