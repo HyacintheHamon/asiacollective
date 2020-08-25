@@ -9,6 +9,7 @@ import { View,
 	FlatList,
 	ActivityIndicator,
 	TextInput,
+	Keyboard,
 	Platform
 } from "react-native";
 
@@ -336,7 +337,7 @@ class DiscoverPreview extends React.Component {
 			temp.splice(indexOfSelected,1);
 			selectedTypeFilters = temp;
 		}
-	  this.setState({typeFilter:  selectedTypeFilters, isFilterApplied:false}, ()=>{
+	  this.setState({typeFilter:  selectedTypeFilters, isFilterApplied:true, isModalVisible:false }, ()=>{
 
 		});
 	}
@@ -354,7 +355,7 @@ class DiscoverPreview extends React.Component {
 			temp.splice(indexOfSelected,1);
 			selectedCuisineFilters = temp;
 		}
-	  this.setState({cuisineFilter:  selectedCuisineFilters, isFilterApplied:false}, ()=>{
+	  this.setState({cuisineFilter:  selectedCuisineFilters, isFilterApplied:true, isModalVisible:false }, ()=>{
 
 		});
 	}
@@ -364,6 +365,12 @@ class DiscoverPreview extends React.Component {
 	}
 
 
+
+	onSubmit(){
+		Keyboard.dismiss();
+		this.setState({ isFilterApplied:true });
+		this.handleOnApplyPressed();
+	}
 
 	handleOnApplyPressed(){
 		var {cuisineFilter,typeFilter} = this.state;
@@ -487,7 +494,7 @@ class DiscoverPreview extends React.Component {
 							</TouchableOpacity>
 							<Text style={{ fontSize:16, alignSelf:'center'}}>FILTER</Text>
 
-							<TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.setState({typeFilter: [],cuisineFilter:[]}); this.toggleModal() }} style={{position:'absolute', right:0, top:6}}>
+							<TouchableOpacity activeOpacity={0.8} onPress={()=>{ this.setState({searchQuery:"", typeFilter: [],cuisineFilter:[]}); this.toggleModal() }} style={{position:'absolute', right:0, top:6}}>
 								<Text style={{ fontSize:14, paddingVertical:20, paddingHorizontal:18, color:'#D5B172'}}>CLEAR</Text>
 							</TouchableOpacity>
 						</View>
@@ -500,7 +507,7 @@ class DiscoverPreview extends React.Component {
 									clearButtonMode={true}
 									placeholder={"Search"}
 									autoCorrect={false}
-									onKeyPress={this.handleOnEnter}
+									onSubmitEditing={this.onSubmit.bind(this)}
 							    style={{ height: 40, width:width-40, borderColor: '#f0f0f0', borderWidth: 1, marginBottom:14, backgroundColor:"#f0f0f0", paddingHorizontal:10, borderRadius:8, paddingLeft:40 }}
 							    onChangeText={(searchQuery) => { this.onChangeSearchQuery(searchQuery) }}
 							    value={this.state.searchQuery}
@@ -595,7 +602,7 @@ class DiscoverPreview extends React.Component {
 						</View>
 
 
-						
+
 
            </View>
          </Modal>
