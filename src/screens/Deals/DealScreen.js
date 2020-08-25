@@ -96,7 +96,7 @@ export default class DealScreen extends React.Component {
     return (
 			<View style={{ flex: 1, backgroundColor:'#f1f1f1', paddingLeft:20,paddingRight:20}}>
 				<StatusBar backgroundColor="white" barStyle={'dark-content'} />
-        <Text style={{marginTop:36, marginBottom:36, fontSize:36}}>Deals</Text>
+        <Text style={{marginTop:36, marginBottom:36, fontSize:36}}>Shop</Text>
 				{this.state.deals.length == 0 ? this.renderPlaceHolder() : (<View style={{position:'relative'}}>
 					<Carousel
 							ref={(c) => { this._carousel2 = c; }}
