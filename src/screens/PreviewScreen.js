@@ -593,7 +593,7 @@ class PreviewScreen extends React.Component {
 													<Text style={{color:'#fff'}}>Buy Privilege</Text>
 												</View>
 												</TouchableOpacity>
-											<Text style={{color:"000", marginTop:15, marginBottom:15, fontStyle:'italic'}}>Checkout our list of privileges below:</Text>
+											<Text style={{color:"000", marginTop:15, marginBottom:15, fontStyle:'italic'}}>See our list of privileges below:</Text>
 									</View>
 
 									<WebView
