@@ -33,7 +33,7 @@ class DealListAllVenues extends React.Component {
 					<Text style={{ fontSize:18,}}>All Venues</Text>
 				</View>
 
-				<View style={{marginLeft:20, marginRight:20}}>
+				<View style={{marginLeft:20, marginRight:20, paddingBottom:120}}>
 					<FlatList
 						 data={deal.venue}
 						 horizontal={false}
