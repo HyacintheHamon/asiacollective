@@ -111,7 +111,7 @@ class AccountScreen extends React.Component {
 						</TouchableOpacity>
 						<View style={{height:1, backgroundColor:'#B5B5B5'}}></View>
 						<TouchableOpacity onPress={()=>{ this.props.navigation.navigate('FAQ') }}>
-							<Text style={{paddingVertical:16, fontSize:17}}>Help</Text>
+							<Text style={{paddingVertical:16, fontSize:17}}>FAQ</Text>
 						</TouchableOpacity>
 						<View style={{height:1, backgroundColor:'#B5B5B5'}}></View>
 						<TouchableOpacity onPress={()=>{ this.navigateToLogin(); }}>
