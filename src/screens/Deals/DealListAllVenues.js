@@ -40,12 +40,16 @@ class DealListAllVenues extends React.Component {
 						 showsHorizontalScrollIndicator={false}
 						 showsVerticalScrollIndicator={false}
 						 renderItem={({ item })=>{
+							 var offerTitle = item.offer_title;
+							 if(item.offer_title.length >= 60){
+								 offerTitle = item.offer_title.slice(0,60)+"...";
+							 }
 							 return (<LocationVenueItem
 								 title={item.title}
 								 image={item.image}
 								 tags={item.category}
 								 width={thumbnailWidth}
-								 isPrivilege={true}
+								 privilegeText={offerTitle}
 								 onPress={()=>{ this.props.navigation.navigate('Preview', {venue: item})}}/>);
 						 }}
 						 keyExtractor={(item, index) => `locVenue-${index.toString()}`}
