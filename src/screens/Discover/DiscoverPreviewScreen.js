@@ -185,10 +185,10 @@ class SecondRoute extends React.Component {
 				provider={PROVIDER_GOOGLE}
 					style={styles.map}
 				 initialRegion={{
-					 latitude: 37.78825,
-					 longitude: -122.4324,
-					 latitudeDelta: 0.0922,
-					 longitudeDelta: 0.0421,
+					 latitude: selectedLocation.coordinates.latitude,
+						longitude: selectedLocation.coordinates.longitude,
+						latitudeDelta: 0.0922,
+						longitudeDelta: 0.0421,
 				 }}>
 				 {this.state.selectedItem != null ? (<MapViewDirections
 						origin={{
