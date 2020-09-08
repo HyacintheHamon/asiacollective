@@ -315,7 +315,7 @@ class DiscoverPreview extends React.Component {
         indicatorStyle={{backgroundColor:'#E7B876'}}
 				renderLabel={this.renderLabel}
         tabStyle={styles.tabStyle}
-        style={{backgroundColor:'#fff'}}
+        style={{backgroundColor:'#fff', elevation:0}}
     />
   )
 
