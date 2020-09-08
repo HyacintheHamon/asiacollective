@@ -26,7 +26,7 @@ export default class DealPreviewScreen extends React.Component {
 		console.log(item);
 		 return (
 			 <View style={{width:width, paddingBottom:30, backgroundColor:'#fff'}}>
-				 <Image source={{url: item.image}}  style={{height:width, width:width}} resizeMode={'cover'}/>
+				 <Image source={{uri: item.image}}  style={{height:width, width:width}} resizeMode={'cover'}/>
 			</View>
 		 );
  }
