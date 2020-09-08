@@ -6,6 +6,7 @@ import {
 	View,
   TouchableOpacity,
 	FlatList,
+  Platform,
 	TextInput,
 	ActivityIndicator
 } from "react-native";
@@ -98,6 +99,7 @@ class AccountAddCodeScreen extends React.Component {
 						<RNPickerSelect
 							style={pickerStyle}
 							placeholder={placeholder}
+              useNativeAndroidPickerStyle={false}
 							onValueChange={(value) => this.setState({ location:value })}
 							items={[
 									 { label: 'Singapore', value: 'singapore' },
