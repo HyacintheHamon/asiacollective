@@ -9,7 +9,7 @@ const LocationItem = ({image,title, tags, onPress, width, thumbnailStyle, privil
 				<AnimatedFadeImage source={{uri:image}} resizeMode={"cover"} style={{width:width ? width : 280, height:120}} containerStyle={{marginBottom:4, backgroundColor:'ghostwhite'}}/>
 				<Text style={{fontSize:18, marginVertical:4}}>{title}</Text>
  			 <Text style={{fontSize:12, color:'gray'}}>{tags}</Text>
-			 {privilegeText.length ? (<Text style={{fontSize:12, color:'orange'}}>{privilegeText}</Text>) : null }
+			 {privilegeText && privilegeText.length ? (<Text style={{fontSize:12, color:'orange'}}>{privilegeText}</Text>) : null }
 	    </View>
 		</TouchableOpacity>);
 }
