@@ -31,7 +31,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import Geolocation from '@react-native-community/geolocation';
-
+import Toast, {DURATION} from 'react-native-easy-toast';
 
 var {width,height} = Dimensions.get('window');
 
@@ -159,7 +159,9 @@ class SecondRoute extends React.Component {
 	}
 
 	handleOnLocateCurrentPosition(){
-		Geolocation.requestAuthorization();
+		if( Platform.OS === 'ios' ) {
+			Geolocation.requestAuthorization();
+		}
 		var clearTimer = setInterval(()=>{
 			Geolocation.getCurrentPosition((geoData)=>{
 				clearInterval(clearTimer);
@@ -175,6 +177,11 @@ class SecondRoute extends React.Component {
 
 	handleOnPress(selectedItem){
 		this.setState({selectedItem:selectedItem});
+	}
+
+	showToastMessage(message){
+		this.refs.toast.show(message, 500, () => {
+		});
 	}
 
 	renderMap(selectedLocation){
@@ -194,6 +201,9 @@ class SecondRoute extends React.Component {
 						origin={{
 							latitude: currentLat,
 							longitude: currentLong
+					}}
+					onError={(error)=>{
+						this.showToastMessage("No route direction found");
 					}}
 					apikey={"AIzaSyB8YuB_4QzGw1XTb5SubcqorkcgauohlKU"}
 						destination={this.state.selectedItem.coordinates}
@@ -227,6 +237,9 @@ class SecondRoute extends React.Component {
 									origin={{
 										latitude: currentLat,
 										longitude: currentLong
+								}}
+								onError={(error)=>{
+									this.showToastMessage("No route direction found");
 								}}
 								apikey={"AIzaSyB8YuB_4QzGw1XTb5SubcqorkcgauohlKU"}
 									destination={this.state.selectedItem.coordinates}
@@ -266,8 +279,10 @@ class SecondRoute extends React.Component {
 							</View>
 						</View>
 					</TouchableOpacity>) : null }
+
 					{this.state.selectedItem != null ? (<FooterPreview onPress={()=>{   this.props.nav.navigate('Preview', {venue: this.state.selectedItem}) }} data={this.state.selectedItem} />) : null }
 					</View>
+					<Toast position='top' ref="toast"/>
 			</View>
     );
   }
