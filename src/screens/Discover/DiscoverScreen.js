@@ -12,6 +12,7 @@ import {
   PlaceholderLine,
   Fade
 } from "rn-placeholder";
+import Toast, {DURATION} from 'react-native-easy-toast';
 
 class LocationPlaceHolder extends React.PureComponent {
 	render(){
@@ -62,6 +63,12 @@ class DiscoverScreen extends React.Component {
 		this._onRefresh();
 	}
 
+	showToastMessage(message){
+		this.refs.toast.show(message, 1500, () => {
+
+		});
+	}
+
 
   render() {
 
@@ -84,7 +91,12 @@ class DiscoverScreen extends React.Component {
 								 isPurchased={item.isPurchased}
 								 image={item.image}
 								 width={width-40}
-								 venuesCount={item.venues.length} onPress={()=>{
+								 venuesCount={item.totalVenues ? item.totalVenues : item.venues.length} onPress={()=>{
+									 if (item.isComingSoon) {
+										 this.showToastMessage('Coming Soon');
+										 return;
+									 }
+
 									 this.props.navigation.navigate(
 										 'DiscoverPreview',
 										 {selectedLocation: item, title: item.title.toUpperCase()}
@@ -93,6 +105,7 @@ class DiscoverScreen extends React.Component {
 							 />);
 						 }}/>)}
 
+				<Toast ref="toast"/>
       </View>
     );
   }
