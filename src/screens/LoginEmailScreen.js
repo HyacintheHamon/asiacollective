@@ -119,6 +119,14 @@ class LoginEmailScreen extends React.Component {
   					</View>
 
             <ErrorBar errors={this.state.errors}/>
+
+            <View style={[ styles.InputContainer, {borderColor: 'transparent',flexDirection:'row', marginTop:30}]}>
+    					<Text style={{color:'#989898'}}>Forgot password? </Text>
+    					<TouchableOpacity onPress={()=> this.props.navigation.navigate('ForgotPasswordScreen')}>
+    						<Text style={{color:'#D8B06C'}}>Click here</Text>
+    					</TouchableOpacity>
+    				</View>
+
   				</View>
         </KeyboardAwareScrollView>
 

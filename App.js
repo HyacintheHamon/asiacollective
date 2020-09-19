@@ -4,6 +4,7 @@ import Modal from 'react-native-modal';
 import Carousel from 'react-native-snap-carousel';
 import { Provider } from 'mobx-react';
 import stores from './stores';
+import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import LoginEmailScreen from './src/screens/LoginEmailScreen';
 import SignUpScreen from './src/screens/SignupScreen';
@@ -59,6 +60,10 @@ const AccountNavigation = createStackNavigator({
 		screen: SignUpScreen,
 		navigationOptions: { header: null }
 	},
+  ForgotPasswordScreen: {
+    screen: ForgotPasswordScreen,
+    navigationOptions: { header: null }
+  },
 	Account: {
 		screen: AccountScreen,
 		navigationOptions: { header: null }
