@@ -3,7 +3,6 @@ import { StyleSheet, Text, TextInput, View,TouchableOpacity, FlatList, Image,Dim
 import Button from "react-native-button";
 import { AppStyles } from "../AppStyles";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { RNCamera, FaceDetector } from 'react-native-camera';
 import { Dimens as D } from '../resources';
 import {
 	QRScannerView
@@ -77,7 +76,7 @@ export default class Scan extends React.Component {
                 maskColor={ 'rgba(0, 0, 0, 0.7)' }
                 torchOn={ torchOn }
               />
-					 
+
 
       </View>
     );

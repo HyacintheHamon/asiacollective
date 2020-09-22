@@ -17,25 +17,25 @@ const defaultScanBarStyle = { alignSelf:'center', width:180, backgroundColor: '#
 const defaultHintTextStyle = { color: '#fff', fontSize: 14, backgroundColor: 'transparent', marginTop: 32, textAlign: 'center' };
 
 export class QRScannerRectView extends Component {
-  
+
   static propTypes = {
     maskColor: PropTypes.string, // 遮罩颜色
     rectStyle: PropTypes.object,// 扫码框样式
-    
+
     cornerStyle: PropTypes.object,// 转角样式
     cornerOffsetSize: PropTypes.number,// 转角偏移距离
     isShowCorner: PropTypes.bool, // 是否显示转角
-    
+
     isShowScanBar: PropTypes.bool, // 是否显示扫描条
     scanBarAnimateTime: PropTypes.number,// 扫描动画时长
     scanBarAnimateReverse: PropTypes.bool, // 扫描条来回移动
     scanBarImage: PropTypes.any,// 自定义扫描条图片
     scanBarStyle: PropTypes.object, // 扫描条样式
-    
+
     hintText: PropTypes.string, // 提示文字
     hintTextStyle: PropTypes.object,// 提示文字样式
   };
-  
+
   static defaultProps = {
     maskColor: '#FFFFFF',
     cornerOffsetSize: 0,
@@ -44,27 +44,27 @@ export class QRScannerRectView extends Component {
     scanBarAnimateTime: 3000,
     hintText: 'Scan the QR code to redeem your privilege',
   };
-  
+
   state = {
     animatedValue: new Animated.Value(0),
   };
-  
+
   constructor(props){
     super(props);
     this.innerRectStyle = Object.assign(defaultRectStyle, props.rectStyle);
     this.innerCornerStyle = Object.assign(defaultCornerStyle, props.cornerStyle);
     this.innerScanBarStyle = Object.assign(defaultScanBarStyle, props.scanBarStyle);
-    this.innerHintTextStyle = Object.assign(defaultHintTextStyle, props.hintTextStyle);
+    this.innerHintTextStyle = Object.assign(defaultHintTextStyle);
   }
-  
+
   componentDidMount(){
     this.scanBarMove();
   }
-  
+
   componentWillUnmount(){
     this.scanBarAnimation && this.scanBarAnimation.stop();
   }
-  
+
   // 扫描动画
   scanBarMove(){
     const { cornerOffsetSize, scanBarAnimateReverse, isShowScanBar } = this.props;
@@ -99,22 +99,22 @@ export class QRScannerRectView extends Component {
       }).start(() => this.scanBarMove());
     }
   }
-  
+
   //获取背景颜色
   getBackgroundColor = () => {
     return { backgroundColor: this.props.maskColor };
   };
-  
+
   //获取扫描框背景大小
   getRectSize = () => {
     return { height: this.innerRectStyle.height, width: this.innerRectStyle.width };
   };
-  
+
   //获取扫描框偏移量
   getRectOffsetHeight = () => {
     return { height: this.innerRectStyle.marginBottom };
   };
-  
+
   //获取扫描框边框大小
   getBorderStyle(){
     const { cornerOffsetSize } = this.props;
@@ -125,7 +125,7 @@ export class QRScannerRectView extends Component {
       borderColor: this.innerRectStyle.borderColor,
     };
   }
-  
+
   //获取扫描框转角的颜色
   getCornerStyle(){
     return {
@@ -134,20 +134,20 @@ export class QRScannerRectView extends Component {
       borderColor: this.innerCornerStyle.borderColor,
     };
   }
-  
+
   getScanImageWidth(){
     return this.innerRectStyle.width - this.innerScanBarStyle.marginHorizontal * 2;
   }
-  
+
   // 获取扫描条图片的高度
   measureScanBarImage = (e) => {
     this.setState({ scanBarImageHeight: Math.round(e.layout.height) });
   };
-  
+
   //绘制扫描线
   renderScanBar(){
     const { isShowScanBar, scanBarImage } = this.props;
-    
+
     if ( !isShowScanBar ) return;
     return scanBarImage
       ? <Image source={ scanBarImage }
@@ -161,57 +161,57 @@ export class QRScannerRectView extends Component {
                ] }/>
       : <View style={ [ { height: 4 }, this.innerScanBarStyle ] }/>;
   }
-  
+
   render(){
     const animatedStyle = {
       transform: [ { translateY: this.state.animatedValue } ],
     };
-    
+
     const { borderWidth } = this.innerCornerStyle;
     const { isShowCorner } = this.props;
-    
+
     return (
       <View style={ [ styles.container, { bottom: 0 } ] }>
-        
+
         {/*扫描框上方遮罩*/ }
         <View style={ [ this.getBackgroundColor(), { flex: 1 } ] }/>
-        
+
         <View style={ { flexDirection: 'row' } }>
-          
+
           {/*扫描框左侧遮罩*/ }
           <View style={ [ this.getBackgroundColor(), { flex: 1 } ] }/>
-          
+
           {/*扫描框*/ }
           <View style={ [ styles.viewfinder, this.getRectSize() ] }>
-            
+
             {/*扫描框边线*/ }
             <View style={ this.getBorderStyle() }>
               <Animated.View style={ [ animatedStyle ] }>
                 { this.renderScanBar() }
               </Animated.View>
             </View>
-            
+
             {/*/!*扫描框转角-左上角*!/*/ }
             { isShowCorner && <View style={ [
               this.getCornerStyle(),
               styles.topLeftCorner,
               { borderLeftWidth: borderWidth, borderTopWidth: borderWidth },
             ] }/> }
-            
+
             {/*扫描框转角-右上角*/ }
             { isShowCorner && <View style={ [
               this.getCornerStyle(),
               styles.topRightCorner,
               { borderRightWidth: borderWidth, borderTopWidth: borderWidth },
             ] }/> }
-            
+
             {/*扫描框转角-左下角*/ }
             { isShowCorner && <View style={ [
               this.getCornerStyle(),
               styles.bottomLeftCorner,
               { borderLeftWidth: borderWidth, borderBottomWidth: borderWidth },
             ] }/> }
-            
+
             {/*扫描框转角-右下角*/ }
             { isShowCorner && <View style={ [
               this.getCornerStyle(),
@@ -219,19 +219,19 @@ export class QRScannerRectView extends Component {
               { borderRightWidth: borderWidth, borderBottomWidth: borderWidth },
             ] }/> }
           </View>
-          
+
           {/*扫描框右侧遮罩*/ }
           <View style={ [ this.getBackgroundColor(), { flex: 1 } ] }/>
-        
+
         </View>
-        
+
         {/*扫描框下方遮罩*/ }
         <View style={ [ this.getBackgroundColor(), { flex: 1, alignItems: 'center' } ] }>
           <Text style={ this.innerHintTextStyle } numberOfLines={ 1 }>{ this.props.hintText }</Text>
         </View>
-        
+
         <View style={ [ this.getBackgroundColor(), this.getRectOffsetHeight() ] }/>
-      
+
       </View>
     );
   }
@@ -243,55 +243,55 @@ export class QRScannerRectView extends Component {
  * Desc：
  */
 export default class QRScannerView extends Component {
-  
+
   static propTypes = {
-    
+
     maskColor: PropTypes.string,
     rectStyle: PropTypes.object,
-    
+
     cornerStyle: PropTypes.object,
     cornerOffsetSize: PropTypes.number,
     isShowCorner: PropTypes.bool,
-    
+
     isShowScanBar: PropTypes.bool,
     scanBarAnimateTime: PropTypes.number,
     scanBarAnimateReverse: PropTypes.bool,
     scanBarImage: PropTypes.any,
     scanBarStyle: PropTypes.object,
-    
+
     hintText: PropTypes.string,
     hintTextStyle: PropTypes.object,
-    
+
     renderHeaderView: PropTypes.func,
     renderFooterView: PropTypes.func,
-    
+
     onScanResult: PropTypes.func,
     scanInterval: PropTypes.number,
     torchOn: PropTypes.bool,
     userFront: PropTypes.bool, // 是否使用前置摄像头
   };
-  
+
   static defaultProps = {
     torchOn: false,
     scanInterval: 2000,
     userFront: false,
   };
-  
+
   constructor(props){
     super(props);
     // 避免频繁触发扫描回调
     this.onScanResult = throttle(this.onScanResult, this.props.scanInterval, { maxWait: 0, trailing: false });
   }
-  
+
   componentDidMount(){
     AppState.addEventListener('change', this.handleAppStateChange);
   }
-  
+
   componentWillUnmount(){
     AppState.removeEventListener('change', this.handleAppStateChange);
-    this.rnCamera && this.rnCamera.pausePreview();
+    //this.rnCamera && this.rnCamera.pausePreview();
   }
-  
+
   handleAppStateChange = (currentAppState) => {
     if ( currentAppState !== 'active' ) {
       this.rnCamera && this.rnCamera.pausePreview();
@@ -299,12 +299,12 @@ export default class QRScannerView extends Component {
       this.rnCamera && this.rnCamera.resumePreview();
     }
   };
-  
+
   onScanResult = (e) => this.props.onScanResult(e);
-  
+
   render(){
     const { renderHeaderView, renderFooterView, torchOn, userFront } = this.props;
-    
+
     return (
       <RNCamera
         ref={ ref => this.rnCamera = ref }
@@ -314,7 +314,7 @@ export default class QRScannerView extends Component {
         flashMode={ torchOn ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off }
         style={ { flex: 1 } }
       >
-        
+
         {/*绘制扫描遮罩*/ }
         <QRScannerRectView
           maskColor={ this.props.maskColor }
@@ -330,13 +330,13 @@ export default class QRScannerView extends Component {
           hintText={ this.props.hintText }
           hintTextStyle={ this.props.hintTextStyle }
         />
-        
+
         {/*绘制顶部标题栏组件*/ }
         { renderHeaderView && <View style={ [ styles.topContainer ] }>{ renderHeaderView() }</View> }
-        
+
         {/*绘制底部操作栏*/ }
         { renderFooterView && <View style={ [ styles.bottomContainer ] }>{ renderFooterView() }</View> }
-      
+
       </RNCamera>
     );
   }
@@ -389,7 +389,7 @@ const styles = StyleSheet.create({
 function throttle(func, wait, options){
   let leading = true;
   let trailing = true;
-  
+
   if ( typeof func !== 'function' ) {
     throw new TypeError('Expected a function');
   }
@@ -411,15 +411,15 @@ function debounce(func, wait, options){
     result,
     timerId,
     lastCallTime;
-  
+
   let lastInvokeTime = 0;
   let leading = false;
   let maxing = false;
   let trailing = true;
-  
+
   // Bypass `requestAnimationFrame` by explicitly setting `wait=0`.
   const useRAF = (!wait && wait !== 0 && typeof root.requestAnimationFrame === 'function');
-  
+
   if ( typeof func !== 'function' ) {
     throw new TypeError('Expected a function');
   }
@@ -430,17 +430,17 @@ function debounce(func, wait, options){
     maxWait = maxing ? Math.max(+options.maxWait || 0, wait) : maxWait;
     trailing = 'trailing' in options ? !!options.trailing : trailing;
   }
-  
+
   function invokeFunc(time){
     const args = lastArgs;
     const thisArg = lastThis;
-    
+
     lastArgs = lastThis = undefined;
     lastInvokeTime = time;
     result = func.apply(thisArg, args);
     return result;
   }
-  
+
   function startTimer(pendingFunc, wait){
     if ( useRAF ) {
       root.cancelAnimationFrame(timerId);
@@ -448,14 +448,14 @@ function debounce(func, wait, options){
     }
     return setTimeout(pendingFunc, wait);
   }
-  
+
   function cancelTimer(id){
     if ( useRAF ) {
       return root.cancelAnimationFrame(id);
     }
     clearTimeout(id);
   }
-  
+
   function leadingEdge(time){
     // Reset any `maxWait` timer.
     lastInvokeTime = time;
@@ -464,28 +464,28 @@ function debounce(func, wait, options){
     // Invoke the leading edge.
     return leading ? invokeFunc(time) : result;
   }
-  
+
   function remainingWait(time){
     const timeSinceLastCall = time - lastCallTime;
     const timeSinceLastInvoke = time - lastInvokeTime;
     const timeWaiting = wait - timeSinceLastCall;
-    
+
     return maxing
       ? Math.min(timeWaiting, maxWait - timeSinceLastInvoke)
       : timeWaiting;
   }
-  
+
   function shouldInvoke(time){
     const timeSinceLastCall = time - lastCallTime;
     const timeSinceLastInvoke = time - lastInvokeTime;
-    
+
     // Either this is the first call, activity has stopped and we're at the
     // trailing edge, the system time has gone backwards and we're treating
     // it as the trailing edge, or we've hit the `maxWait` limit.
     return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
       (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
   }
-  
+
   function timerExpired(){
     const time = Date.now();
     if ( shouldInvoke(time) ) {
@@ -494,10 +494,10 @@ function debounce(func, wait, options){
     // Restart the timer.
     timerId = startTimer(timerExpired, remainingWait(time));
   }
-  
+
   function trailingEdge(time){
     timerId = undefined;
-    
+
     // Only invoke if we have `lastArgs` which means `func` has been
     // debounced at least once.
     if ( trailing && lastArgs ) {
@@ -506,7 +506,7 @@ function debounce(func, wait, options){
     lastArgs = lastThis = undefined;
     return result;
   }
-  
+
   function cancel(){
     if ( timerId !== undefined ) {
       cancelTimer(timerId);
@@ -514,23 +514,23 @@ function debounce(func, wait, options){
     lastInvokeTime = 0;
     lastArgs = lastCallTime = lastThis = timerId = undefined;
   }
-  
+
   function flush(){
     return timerId === undefined ? result : trailingEdge(Date.now());
   }
-  
+
   function pending(){
     return timerId !== undefined;
   }
-  
+
   function debounced(...args){
     const time = Date.now();
     const isInvoking = shouldInvoke(time);
-    
+
     lastArgs = args;
     lastThis = this;
     lastCallTime = time;
-    
+
     if ( isInvoking ) {
       if ( timerId === undefined ) {
         return leadingEdge(lastCallTime);
@@ -546,7 +546,7 @@ function debounce(func, wait, options){
     }
     return result;
   }
-  
+
   debounced.cancel = cancel;
   debounced.flush = flush;
   debounced.pending = pending;
