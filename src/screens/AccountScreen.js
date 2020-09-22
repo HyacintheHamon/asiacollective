@@ -119,7 +119,7 @@ class AccountScreen extends React.Component {
 						</TouchableOpacity>
 						<View style={{height:1, backgroundColor:'#B5B5B5'}}></View>
 
-						<Text style={{marginTop:16, color:'#B5B5B5', paddingBottom:50}}>Version 1.0.5</Text>
+						<Text style={{marginTop:16, color:'#B5B5B5', paddingBottom:50}}>Version 1.0.8</Text>
 
 				</ScrollView>
       </View>
