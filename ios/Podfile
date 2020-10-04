@@ -16,6 +16,8 @@ target 'asiacollective' do
   end
 
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
+  pod 'RNCPushNotificationIOS', :path => '../node_modules/@react-native-community/push-notification-ios'
+
 
   # Enables Flipper.
   #
@@ -24,6 +26,12 @@ target 'asiacollective' do
   use_flipper!
   post_install do |installer|
     flipper_post_install(installer)
+
+    installer.pods_project.targets.each do |t|
+      t.build_configurations.each do |config|
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '8.0'
+      end
+    end
   end
 end
 

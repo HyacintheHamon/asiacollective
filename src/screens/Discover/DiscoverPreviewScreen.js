@@ -32,6 +32,7 @@ import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import Geolocation from '@react-native-community/geolocation';
 import Toast, {DURATION} from 'react-native-easy-toast';
+import DistanceService from '../DistanceService';
 
 var {width,height} = Dimensions.get('window');
 
@@ -158,6 +159,31 @@ class SecondRoute extends React.Component {
 
 	}
 
+	checkNearby() {
+		var selectedLocation = this.props.selectedLocation;
+		var { currentLat, currentLong } = this.state;
+		var distanceService = DistanceService;
+
+		distanceService.initialize();
+
+		var nearby = [];
+		selectedLocation.venues.forEach((item, i) => {
+			var d = distanceService.isNearby(item.coordinates.latitude, item.coordinates.longitude,currentLat, currentLong);
+			var inMeters = (d * 1000).toFixed();
+			if(inMeters < 100){
+				nearby.push(item);
+			}
+			//console.log(item.coordinates.latitude, item.coordinates.longitude, inMeters+" meters");
+		});
+
+		setTimeout(()=>{
+			if (nearby.length != 0) {
+					if (nearby.length == 1) { distanceService.trigger(nearby[0].name +" is nearby", "Launch the app to redeem privilege"); }
+					else { distanceService.trigger("There are "+nearby.length +" restaurants nearby", "Launch the app to redeem privilege"); }
+			}
+		},2000);
+	}
+
 	handleOnLocateCurrentPosition(){
 		if( Platform.OS === 'ios' ) {
 			Geolocation.requestAuthorization();
@@ -170,6 +196,8 @@ class SecondRoute extends React.Component {
 					hasCurrentLocation: true,
 					currentLat: geoData.coords.latitude,
 					currentLong: geoData.coords.longitude
+
+					this.checkNearby();
 				});
 			},null,null);
 		},2000);
