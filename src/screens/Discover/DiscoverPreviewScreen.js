@@ -196,9 +196,8 @@ class SecondRoute extends React.Component {
 					hasCurrentLocation: true,
 					currentLat: geoData.coords.latitude,
 					currentLong: geoData.coords.longitude
-
-					this.checkNearby();
 				});
+				this.checkNearby();
 			},null,null);
 		},2000);
 	}
